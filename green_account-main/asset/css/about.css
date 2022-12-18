@@ -43,6 +43,7 @@
     margin-top: 20px;
     flex-direction: column;
     align-items: center;
+    padding-top: 30px;
 }
 .maildiv input{
     width: 450px;
@@ -51,6 +52,7 @@
     background-color: transparent;
     border: 5px solid;
     border-radius: 20px;
+    
 }
 
 .qabody{
