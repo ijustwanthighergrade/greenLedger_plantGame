@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../asset/img/green-power.png" type="image/x-icon" />
+    <title>存碳養綠</title>
+    <style>
+        @import url(../asset/css/main.css);
+        @import url(../asset/css/nav.css);
+        @import url(../asset/css/map.css);
+        @import url(../asset/css/animation.css);
+    </style>
+</head>
+<body>
+    <main>
+        <aside id="main_title">
+            <h1>店家地圖</h1>
+        </aside>
+        <aside id="main_body">
+            <div id="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3617.2324799164767!2d121.235859!3d24.9582038!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3468221447a0f021%3A0x2b86d2650bb8bcff!2z5Lit5Y6f5aSn5a24!5e0!3m2!1szh-TW!2stw!4v1670764738281!5m2!1szh-TW!2stw" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="shop">
+                <img src="../asset/img/location.png" alt="">
+                <div class="map_detail" onclick="click1()">
+                    <h3>中原大學</h3>
+                    <p>地址：320桃園市中壢區中北路200號</p>
+                    <p>電話：032659999</p>    
+                </div>
+            </div>
+            <div class="shop">
+                <img src="../asset/img/location.png" alt="">
+                <div class="map_detail" onclick="click2()">
+                    <h3>大潤發中壢店</h3>
+                    <p>地址：32087桃園市中壢區中北路二段468號</p>
+                    <p>電話：034388288</p>    
+                </div>
+            </div>
+            <div class="shop">
+                <img src="../asset/img/location.png" alt="">
+                <div class="map_detail" onclick="click3()">
+                    <h3>遠東SOGO 中壢店</h3>
+                    <p>地址：320桃園市中壢區元化路357號</p>
+                    <p>電話：034227000</p>    
+                </div>
+            </div>
+            <div class="shop">
+                <img src="../asset/img/location.png" alt="">
+                <div class="map_detail">
+                    <h3>店家名稱</h3>
+                    <p>地址：320桃園市中壢區中北路200號</p>
+                    <p>電話：032659999</p>    
+                </div>
+            </div>
+        </aside>
+    </main>
+    <div id="to_top">
+        <div id="top"></div>
+        <a href="#">
+            <img src="../asset/img/earth-day.png" alt="" id="top_btn">
+        </a>
+    </div>
+    <footer></footer>
+    <iframe src="../page/nav.html" id="navBar" frameborder="0" scrolling="no"></iframe>
+
+    <script>
+        //點即修改地圖*改src裡面的網址就好*
+        function click1(){
+            document.getElementById('map').innerHTML = "<iframe src='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3617.2324799164767!2d121.235859!3d24.9582038!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3468221447a0f021%3A0x2b86d2650bb8bcff!2z5Lit5Y6f5aSn5a24!5e0!3m2!1szh-TW!2stw!4v1670764738281!5m2!1szh-TW!2stw'   loading='lazy' referrerpolicy='no-referrer-when-downgrade'></iframe>";
+        }
+        function click2(){
+            document.getElementById('map').innerHTML = "<iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14468.703690648153!2d121.22710883728018!3d24.960128548308745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34682240aa3933d3%3A0x71f98548711548e0!2z5aSn5r2k55m85Lit5aOi5bqX!5e0!3m2!1szh-TW!2stw!4v1671041591787!5m2!1szh-TW!2stw'   loading='lazy' referrerpolicy='no-referrer-when-downgrade'></iframe>";
+        }
+        function click3(){
+            document.getElementById('map').innerHTML = "<iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14468.703690648153!2d121.22710883728018!3d24.960128548308745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34682236b39fb4e7%3A0xb47ceb7da75931b!2z6YGg5p2xU09HTyDkuK3lo6Llupc!5e0!3m2!1szh-TW!2stw!4v1671041730742!5m2!1szh-TW!2stw'   loading='lazy' referrerpolicy='no-referrer-when-downgrade'></iframe>";
+        }
+    </script>
+
+</body>
+</html>
