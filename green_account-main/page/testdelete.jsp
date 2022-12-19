@@ -1,0 +1,1 @@
+INSERT INTO `vip` VALUES ( '"+ racc + "','"+ rpwd + "', '"+ rname + "', '"+ sexual + "', '"+ rbirth + "', '"+ rmail + "', '"+ rphone + "', '"+ radd + "','"+y1+"')
