@@ -37,6 +37,24 @@
     width:1150px;
     border-radius: 30px;
 }
+
+.maildiv{
+    display: flex;
+    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+}
+.maildiv input{
+    width: 450px;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: transparent;
+    border: 5px solid;
+    border-radius: 20px;
+    
+}
+
 .qabody{
     display: flex;
     justify-content: space-between;
@@ -91,3 +109,5 @@
     transform: scale(1.2,1.2);
     transition: all 0.5s ease-out;
 }
+
+

@@ -23,7 +23,7 @@ div{
   flex: 1 1 auto;
 }
 .info{
-  justify-content: space-around;
+  justify-content: space-between;
   display: flex;
   padding: 30px;
   flex-wrap: wrap;
@@ -77,21 +77,23 @@ div{
   padding-left: 20px;
   
 }
-.btn{
-  background-color: transparent;
-  border: 1px solid;
-  border-radius: 10px;
+#update{
+  background-color: rgba(122, 201, 122, 0.733);
+  border:none;
+  border-radius: 5px;
   width: 80px;
   height: 50px;
   
 }
 
-.btndiv :hover{
-  background-color: rgb(214, 228, 228);
- 
-  color: black;
+#update:hover{
+  background-color:rgb(25, 85, 25);
+  border: 2px solid rgba(189, 240, 189, 0.733) ;
+  
   transition: 1s;
-
+  cursor: pointer;
+  
+  
 }
 
 .userbottom{
@@ -134,4 +136,29 @@ dialog{
   height: fit-content;
   background-color: transparent;
   border: none;
+}
+
+.btndiv{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+.btn_update{
+  background-color: rgba(122, 201, 122, 0.733);
+  border:none;
+  border-radius: 5px;
+  width: 80px;
+  height: 50px;
+  margin: 10px;
+}
+
+
+.btn_update:hover{
+  background-color:rgb(25, 85, 25);
+  border: 2px solid rgba(189, 240, 189, 0.733) ;
+  
+  transition: 1s;
+  cursor: pointer;
+  
+  
 }
