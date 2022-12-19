@@ -47,7 +47,7 @@
             y1 = con.createStatement().executeUpdate(sql);
         }
         else{ %>
-            <script src="../assets/js/rfail.js"></script>
+            <script src="../asset/js/rfail.js"></script>
             <%  //response.sendRedirect("login.jsp");
         } 
         out.println(y1);
