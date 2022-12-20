@@ -39,7 +39,6 @@
             sql = "SELECT `vAccount`,`vName`,`vGender`,`vBirth`,`vMail`,`vPhone`,`vAddress`,`vPoint` FROM `vip` WHERE `vAccount` ='"+ id +"'";
             ResultSet rs1 = con.createStatement().executeQuery(sql);
             rs1.next();
-            //http://localhost:8080/LaptopShoppingSite/src/memInfo.jsp
     %>
 
         <div class="big">
