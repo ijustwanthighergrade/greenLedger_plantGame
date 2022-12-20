@@ -269,7 +269,7 @@ DROP table IF EXISTS tgoods;
 create table tgoods(
 	tgAccount VARCHAR(20), #會員編號
 	tgID int, #產品編號
-    tgDate date,#日期
+    tgDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,#日期
     FOREIGN KEY(tgAccount) REFERENCES vip(vAccount),
     FOREIGN KEY(tgID) REFERENCES goods(gID),
     PRIMARY KEY(tgAccount,tgDate)

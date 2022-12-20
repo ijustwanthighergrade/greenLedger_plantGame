@@ -80,7 +80,7 @@
                             <div class="btndiv1">
                                 <button id="update" > 修改</button>
                                 <input type="button" id="update" onclick="location.href='logout_mem.jsp';" value="登出" />
-                                <%-- <a href='logout_mem.jsp' >登出</a> --%>
+                                
                             </div>
 
                             <dialog id="userupdate" style="background-color: rgb(12, 80, 36); width: 80%; border-radius: 10px;" >

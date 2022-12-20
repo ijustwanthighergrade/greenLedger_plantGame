@@ -20,34 +20,58 @@
                 
                 try{    
                     
-                    sql= "SELECT * FROM `tgoods` WHERE (`tgAccount`=?) AND (`tgID`=?)";
-                    PreparedStatement ps = con.prepareStatement(sqlc);
+                    sql= "SELECT * FROM `tgoods` WHERE (`tgAccount`=?) AND (`tgDate`=?)";
+                    PreparedStatement ps = con.prepareStatement(sql);
                     ps.setString(1,acc);
-                    ps.setString(2,id);
-                    ResultSet rscart = pscart.executeQuery();
-                    
+                    ps.setString(2,credate);
+                    ResultSet rs = ps.executeQuery();
                                         
                     int c=0;
+                    //插入點數交易明細
                     if( !rscart.next() ){
-                        String sqln = "INSERT INTO `tgoods` VALUES ( ? , ? , ?, '"+ credate +"')";
+                        String sqln = "INSERT INTO `tgoods` VALUES ( ? , ? , '"+ credate +"')";
                         PreparedStatement psincart = con.prepareStatement(sqln);
-                        psincart.setString(1,id);
-                        psincart.setString(2,productid);
-                        psincart.setInt(3,quantity);
+                        psincart.setString(1,acc);
+                        psincart.setString(2,id);
                         c = psincart.executeUpdate();
                     }
                     else{
-                        String sqlu = "UPDATE `cart` SET `order_amount`= `order_amount`+?, `add_Date`='"+ credate +"' WHERE (`mem_id`=?) AND (`product_id`=?)";
-                       
-                        PreparedStatement pstocart = con.prepareStatement(sqlu);
-                        pstocart.setInt(1,quantity);
-                        pstocart.setString(2,id);
-                        pstocart.setString(3,productid);
-                        c = pstocart.executeUpdate();
+                        ctime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
+                        credate = ctime.format(new java.util.Date()); 
+                        String sqln = "INSERT INTO `tgoods` VALUES ( ? , ? , '"+ credate +"')";
+                        PreparedStatement psincart = con.prepareStatement(sqln);
+                        psincart.setString(1,acc);
+                        psincart.setString(2,id);
+                        c = psincart.executeUpdate();
                     }
+                    //減少商品庫存&取出點數
+                    sql= "SELECT `gPoint`,`gStock` FROM `goods` WHERE (`gID`=?)";
+                    ps = con.prepareStatement(sql);
+                    ps.setString(1,id);
+                    rs = ps.executeQuery();
                     
+                    int gstock = rs.getInt("gStock");
+                    int gpoint = rs.getInt("gPoint");
+                    gstock--;
+
+                    sql= "SELECT `gPoint`,`gStock` FROM `goods` WHERE (`gID`=?)";
+                    ps.setString(1,acc);
+                    rs = ps.executeQuery();
+
+
+
+                    String sql1 = "UPDATE `vip` SET `vPoint`=? WHERE `vAccount`=?";
+                    ps.setString(1,acc);  
+                    int change = ps.executeUpdate();
+
+
+
+
+
+
+
                     if ( c > 0 )
-                        response.sendRedirect("car.jsp"); 
+                        response.sendRedirect("shop.jsp"); 
                     }catch(NumberFormatException ex){%>
 
                         <script type="text/javascript">
