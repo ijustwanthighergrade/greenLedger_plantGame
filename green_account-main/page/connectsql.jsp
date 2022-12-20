@@ -3,6 +3,7 @@
 <%@ page import= "java.sql.*"%>
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="javax.servlet.*,java.text.*"%>
+
 <%
     Class.forName("com.mysql.jdbc.Driver");	  
     String url = "jdbc:mysql://localhost/?serverTimezone=UTC";
