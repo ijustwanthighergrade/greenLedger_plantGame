@@ -19,49 +19,46 @@ create table vip(
 #類別細項資料庫
 DROP table IF EXISTS category;
 create table category(
-	cID int PRIMARY KEY, #類別編號
     cType varchar(2), #類別
-    tDetail varchar(10) #類別細項
+    cDetail varchar(10) PRIMARY KEY #類別細項
 );
 
-insert into category value('1','食','素食');
-insert into category value('2','食','非素食');
-insert into category value('3','衣','');
-insert into category value('4','住','月水電費');
-insert into category value('5','住','月瓦斯費');
-insert into category value('6','行','油費');
-insert into category value('7','行','自駕');
-insert into category value('8','行','捷運');
-insert into category value('9','行','公車');
-insert into category value('10','行','鐵路');
-insert into category value('11','行','長程飛機');
-insert into category value('12','行','短程飛機');
-insert into category value('13','其他','具有綠色標章 ');
-insert into category value('14','其他','非綠色標章');
+insert into category value('食','素食');
+insert into category value('食','非素食');
+insert into category value('衣','');
+insert into category value('住','月水電費');
+insert into category value('住','月瓦斯費');
+insert into category value('行','油費');
+insert into category value('行','自駕');
+insert into category value('行','捷運');
+insert into category value('行','公車');
+insert into category value('行','鐵路');
+insert into category value('行','長程飛機');
+insert into category value('行','短程飛機');
+insert into category value('其他','具有綠色標章 ');
+insert into category value('其他','非綠色標章');
 
 #店家類別資料庫
 DROP table IF EXISTS store;
 create table store(
-	sID int PRIMARY KEY, #店家類別編號
-    sShop varchar(10) #店家類別
+    sShop varchar(10)  PRIMARY KEY #店家類別
 );
 
-insert into store value('1','獨立商店');
-insert into store value('2','連鎖商店');
-insert into store value('3','便利商店負碳商品專區');
-insert into store value('4','便利商店一般');
-insert into store value('5','綠色商店');
-insert into store value('6','其他');
+insert into store value('獨立商店');
+insert into store value('連鎖商店');
+insert into store value('便利商店負碳商品專區');
+insert into store value('便利商店一般');
+insert into store value('綠色商店');
+insert into store value('其他');
 
 #消費型態資料庫
 DROP table IF EXISTS pattern;
 create table pattern(
-	pID int PRIMARY KEY, #消費型態編號
-    pShape varchar(2) #消費型態
+    pShape varchar(2) PRIMARY KEY #消費型態
 );
 
-insert into pattern value('1','網路');
-insert into pattern value('2','自購');
+insert into pattern value('網路');
+insert into pattern value('自購');
 
 #交易紀錄
 DROP table IF EXISTS trade;
@@ -69,17 +66,17 @@ create table trade(
 	tID int PRIMARY KEY, #交易編號
     tAccount varchar(20), #會員帳號
     tDate date , #交易日期
-	tShop int, #店家類別
+	tShop varchar(10), #店家類別
 	tGoods varchar(60), #品名
-    tDetail int, #類別細項
-    tShape int, #消費型態
+    tDetail varchar(10), #類別細項
+    tShape varchar(2), #消費型態
     tMoney int, #金額
 	tUnit int, #單位
 	tCO2 int, #碳足跡
     FOREIGN KEY(tAccount) REFERENCES vip(vAccount),
-	FOREIGN KEY(tDetail) REFERENCES category(cID),
-	FOREIGN KEY(tShop) REFERENCES store(sID),
-    FOREIGN KEY(tShape) REFERENCES pattern(pID)
+	FOREIGN KEY(tDetail) REFERENCES category(cDetail),
+	FOREIGN KEY(tShop) REFERENCES store(sShop),
+    FOREIGN KEY(tShape) REFERENCES pattern(pShape)
 
 );
 
@@ -202,6 +199,17 @@ create table photo(
 	pImg  VARCHAR(40) #花卉圖片
 );
 
+insert into photo value('1','001','plant(1).png');
+insert into photo value('2','002','plant(2).png');
+insert into photo value('3','003','plant(3).png');
+insert into photo value('4','004','plant(4).png');
+insert into photo value('5','005','plant(5).png');
+insert into photo value('6','006','plant(6).png');
+insert into photo value('7','007','plant(7).png');
+insert into photo value('8','008','plant(8).png');
+insert into photo value('9','009','plant(9).png');
+insert into photo value('10','010','plant(10).png');
+
 #會員擁有圖鑑資料表
 DROP table IF EXISTS vphoto;
 create table vphoto(
@@ -217,6 +225,11 @@ create table flower(
 	fType VARCHAR(2) PRIMARY KEY, #狀態
 	fImg VARCHAR(40) #圖片
 );
+
+insert into flower value('種子','seed(1).jpg');
+insert into flower value('發芽','seed(2).jpg');
+insert into flower value('花苞','seed(3).jpg');
+insert into flower value('枯萎','seed(4).jpg');
 
 #會員植物資料表
 DROP table IF EXISTS vflower;
