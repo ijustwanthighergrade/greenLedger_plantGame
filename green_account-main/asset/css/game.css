@@ -82,20 +82,21 @@
     left: 25%;
     top: 250px;
 }
-.seed{
+.seed img{
     position: absolute;
-    background-color: rgb(134, 20, 20);
-    text-align: center;
-    line-height: 40px;
-    width: 80px;
-    height: 80px;
+    
+    
+    
+    width: 150px;
+    
     border-radius: 50%;
-    top: 350px;
-    left: 40%;
+    top: 240px;
+    left: 35%;
     z-index: 1;
     color: white;
     
 }
+
 
 .grass .green {
     position:absolute ;
@@ -132,13 +133,14 @@ a{
     border-radius: 20px;
     border: none;
     margin: 5px;
+    cursor: pointer;
 }
 
 
 .btn1:hover{
-    font-size: 20px;
-    transition: 0.5s;
-    background-color: bisque;
-    transition: 1s;
-    color: rgba(13, 83, 13, 0.911);
+   
+    background-color: rgba(13, 83, 13, 0.612);
+    transform: scale(1.2,1.2);
+    transition: all 0.5s ease-out;
+    color: bisque;
 }
