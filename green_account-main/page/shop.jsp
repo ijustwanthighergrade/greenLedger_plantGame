@@ -18,16 +18,6 @@
         @import url(../asset/css/animation.css);
     </style>
 </head>
-<script>
-    function point(){
-        y = confirm("確定兌換？")
-        if(y==true){
-            alert("成功兌換")
-        }
-        else
-            alert("點數不足")
-    }
-</script>
 <body>
     <main>
         <aside id="main_title">
@@ -46,7 +36,6 @@
 
             String sql1 = "SELECT * FROM `goods`";
             ResultSet rs2 = con.createStatement().executeQuery(sql1);
-            rs2.next();
     %>
 
         <aside id="main_body">
@@ -65,7 +54,7 @@
                             out.println("<div class='goods_img'>");
                             out.println("<p>剩餘：</p><p>"+rs2.getInt("gStock")+"</p>");
                             out.println("<img src='../asset/img/"+rs2.getString("gPhoto")+"' alt=''> </div>");
-                            out.println("<button type='submit' class='goods_btn' onclick='location.href='buynow.jsp?id="+rs2.getString("gID")+"';'>"+rs2.getInt("gPoint")+"點</button>");
+                            out.println("<button type='submit' class='goods_btn' onclick='point("+rs2.getInt("gID")+");'>"+rs2.getInt("gPoint")+"點</button>");
                             out.println("</div>");
                         }
                         else{
@@ -76,9 +65,10 @@
                             out.println("<div class='goods_img'>");
                             out.println("<p>剩餘：</p><p>"+rs2.getInt("gStock")+"</p>");
                             out.println("<img src='../asset/img/"+rs2.getString("gPhoto")+"' alt=''> </div>");
-                            out.println("<button type='submit' class='goods_btn'  onclick='location.href='buynow.jsp?id="+rs2.getString("gID")+";'>"+rs2.getInt("gPoint")+"點</button>");
+                            out.println("<button type='submit' class='goods_btn' onclick='point("+rs2.getInt("gID")+");'>"+rs2.getInt("gPoint")+"點</button>");
                             out.println("</div>");
                             out.println("</div>");
+                            
                             k=2;
                         }
                     }
@@ -101,3 +91,11 @@
     <iframe src="../page/nav.html" id="navBar" frameborder="0" scrolling="no"></iframe>
 </body>
 </html>
+
+<script>
+    function point(a){
+            if(confirm('確定兌換？')){location='buynow.jsp?id='+a}
+            else
+                location='shop.jsp'
+    }
+</script>

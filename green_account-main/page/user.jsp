@@ -135,42 +135,30 @@
                                         <div class="midpoint">
                                             <h2 style="text-align: center; margin-bottom: 0px;">兌換紀錄</h2>
                                             <button id="close" >X</button>
-                                            <div class="pointcontent">
-                                                <p>2022 / 12 / 18<br>
-                                                    16 : 41 <br>
-                                                    商品 :  <br>
-                                                    點數 : 
-                            
-                                                </p>
+                                            <%
+                                                sql = "SELECT * FROM `tgoods`";
+                                                rs = con.createStatement().executeQuery(sql);
+                                                while(rs.next()){
+                                                    String sqlg = "SELECT `gName`,`gPoint` FROM `goods` WHERE `gID`="+rs.getInt("tgID");
+                                                    ResultSet rsg = con.createStatement().executeQuery(sqlg);
+                                                    rsg.next();
+
+
+                                                    out.println("<div class='pointcontent'>");
+                                                    out.println("<p> 兌換時間："+rs.getString("tgDate")+"<br>");
+                                                    out.println("商品 :"+rsg.getString("gName")+"  <br>");
+                                                    out.println("點數 : " + rsg.getString("gPoint"));
+                                                    out.println("</p>");
+                                                    out.println("</div>");
+                                                }
+                                            %>
+                                            
                                                 
-                                            </div>
-                                            <div class="pointcontent">
-                                                <p>2022 / 12 / 18<br>
-                                                    16 : 41 <br>
-                                                    商品 :  <br>
-                                                    點數 : 
-                            
-                                                </p>
+                                                    
+                                                    
                                                 
-                                            </div>
-                                            <div class="pointcontent">
-                                                <p>2022 / 12 / 18<br>
-                                                    16 : 41 <br>
-                                                    商品 :  <br>
-                                                    點數 : 
-                            
-                                                </p>
-                                                
-                                            </div>
-                                            <div class="pointcontent">
-                                                <p>2022 / 12 / 18<br>
-                                                    16 : 41 <br>
-                                                    商品 :  <br>
-                                                    點數 : 
-                            
-                                                </p>
-                                                
-                                            </div>
+                                            
+
                                             
                                         </div>
                                     </div>
