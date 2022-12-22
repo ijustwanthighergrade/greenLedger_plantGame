@@ -1,7 +1,11 @@
-<%@page contentType="text/html"%>
-<%@page pageEncoding="UTF-8"%>
-<%@page import ="java.sql.*"%>
+<%@ page language="java"%>
+<%@ page contentType="text/html"%>
+<%@ page pageEncoding="UTF-8"%>
+<%@ page import ="java.sql.*"%>
 <%@ include file = "connectsql.jsp" %> 
+<%@ page import="java.io.*,java.util.*"%>
+<%@ page import="javax.servlet.*,java.text.*"%>
+<%@ page import="java.sql.*"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,52 +22,98 @@
     </style>
 </head>
 <body>
+<%
+    if(session.getAttribute("mem_account") == null || session.getAttribute("mem_account").equals("")) {
+        response.sendRedirect("index.jsp");
+    }
+    else{
+        String acc = session.getAttribute("mem_account").toString();
+        String date1 = request.getParameter("d1"); //日期篩選
+        String date2 = request.getParameter("d2"); //日期篩選
+
+        //下拉式清單
+
+        if( date1 !=null  && !date1.equals("")&&date2 !=null  && !date2.equals("")){
+            SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" ); 
+            java.util.Date da1 = sdf.parse(date1); 
+            java.util.Date da2 = sdf.parse(date2); 
+            java.util.Date date = new java.util.Date();
+            java.sql.Date now1 = new java.sql.Date(date.getTime()); 
+            boolean a = da1.before(da2);
+            boolean b = da1.before(now1);
+            boolean c = da2.before(now1);
+
+            if(!a){
+                %>
+                    <script type="text/javascript">
+                        alert("終止日期請勿超過起始日期");
+                        history.back();
+                    </script>                 
+                <%
+            }
+            if(!b||!c){
+                %>
+                    <script type="text/javascript">
+                        alert("請勿超過今日日期");
+                        history.back();
+                    </script>                 
+                <%
+            }
+        }
+        else{
+            date1="";
+            date2="";
+        }
+
+        sql= "SELECT * FROM `vip` WHERE `vAccount`=?";
+
+%>
     <main>
         <aside id="main_title">
             <h1>綠色記帳本</h1>
         </aside>
         <aside id="main_body">
             <div id="add">
-                <form   name="myForm">
-                    <h2>日期 ：<input type="date" id="add_date"></h2><br>
+                <form name="myForm" action="addrecord.jsp">
+                    <h2>日期 ：<input type="date" name="add_date" id="add_date"></h2><br>
                     <select name="type" id="add_type" onChange="renew(this.selectedIndex);">
                         <option value="" disabled selected hidden>類別</option>
-                        <option value="Food">食</option>
-                        <option value="Clothing">衣</option>
-                        <option value="Housing">住</option>
-                        <option value="Transportation">行</option>
-                        <option value="Other">其他</option>
+                        <option value="食">食</option>
+                        <option value="衣">衣</option>
+                        <option value="住">住</option>
+                        <option value="行">行</option>
+                        <option value="其他">其他</option>
                     </select>
                     <select name="typeDetail" id="add_type_detail">
                         <option value="" disabled selected hidden>細項</option>
                     </select>
-                    <input type="number" id="add_money" placeholder="$ 金額" min="0">
-                    <select name="type" id="add_shop">
+                    <input type="number" name="money" id="add_money" placeholder="$ 金額" min="0">
+                    <select name="store" id="add_shop">
                         <option value="" disabled selected hidden>店家</option>
-                        <option value="">獨立商店</option>
-                        <option value="">連鎖商店</option>
-                        <option value="">便利商店_負碳商品專區</option>
-                        <option value="">便利商店_一般</option>
-                        <option value="">綠色商店</option>
-                        <option value="">其他</option>
+                        <option value="獨立商店">獨立商店</option>
+                        <option value="連鎖商店">連鎖商店</option>
+                        <option value="便利商店負碳商品專區">便利商店_負碳商品專區</option>
+                        <option value="便利商店一般">便利商店_一般</option>
+                        <option value="綠色商店">綠色商店</option>
+                        <option value="其他">其他</option>
                        
                     </select>
                     <script>
                         department=new Array();
                         department[0]=[];	
                         department[1]=["素食", "非素食"];	
-                        department[2]=[];
-                        department[3]=["水電費/月","瓦斯費/月"];
+                        department[2]=["衣"];
+                        department[3]=["月水電費","月瓦斯費"];
                         department[4]=["油費","自駕", "捷運", "公車", "鐵路", "長程飛機", "短程飛機"];
                         department[5]=["具有綠色標章", "非綠色標章"];
 
                         function renew(index){
                             for(var i=0;i<department[index].length;i++)
                                 document.myForm.typeDetail.options[i]=new Option(department[index][i], department[index][i]);	// 設定新選項
-                            document.myForm.typeDetail.length=department[index].length;	// 刪除多餘的選項
+                                document.myForm.typeDetail.length=department[index].length;	// 刪除多餘的選項
                         }
                     </script>
-                    <input type="number" id="add_unit" placeholder="單位" min="0" title="行車公里/公車、捷運站數/份數/飛機次數/油公升數">
+                    <input type="number" name="unit" id="add_unit" placeholder="單位" min="0" title="行車公里/公車、捷運站數/份數/飛機次數/油公升數">
                     <button type="submit" id="add_btn" onclick="addFunction()" >新增</button><br>
                     <script>
                         function addFunction()
@@ -71,13 +121,14 @@
                             alert("此紀錄碳足跡量已超標!! \n 未來您的孫子沒有家了哭哭 °(°ˊДˋ°) °");
                         }
                     </script>
-                    <select name="type" id="add_buy">
-                        <option value="">自行到店</option>
-                        <option value="">網購</option>
+                    <select name="way" id="add_buy">
+                        <option value="自行到店">自行到店</option>
+                        <option value="網購">網購</option>
                     </select>
-                    <input type="text" placeholder="品名" id="productName">
+                    <input type="text" name="pname" placeholder="品名" id="productName">
                 </form>
             </div>
+
             <div id="today">
                 <p>本日消費金額：</p>
                     <p>500</p>
@@ -98,10 +149,10 @@
             <div class="data">
                 <section id="data_detail">
                     <div id="date_Range">
-                        <form action="">
-                            <input type="date" class="Range_1">
+                        <form action="account.jsp">
+                            <input type="date" name="d1" class="Range_1">
                             <p>~</p>
-                            <input type="date" class="Range_2">
+                            <input type="date" name="d2" class="Range_2">
                             <button type="submit" id="Range_btn">GO</button>
                         </form>
                     </div>
@@ -115,15 +166,15 @@
                     </div>
                 </section>
                 <section id="data_record">
+                
                     <div id="record_title">
-                        <p id="record_data1">2021/12/25</p>
+                        <p id="record_data1"><%out.println(date1);%></p>
                         <p >～</p>
-                        <p id="record_data2">2022/12/26</p>
+                        <p id="record_data2"><%out.println(date2);%></p>
                     </div>
-                    <iframe src="../page/data_record.html" frameborder="0" id="dataRecord">
-
-                    </iframe>
-                    
+<%-- 紀錄 --%>
+               
+<%-- 紀錄  --%>
                     </div>
                     <div id="record_sum" >
                         <table>
@@ -141,6 +192,10 @@
             </div>
         </aside>
     </main>
+
+<% 
+}
+%>  
     <div id="to_top">
         <div id="top"></div>
         <a href="#">
