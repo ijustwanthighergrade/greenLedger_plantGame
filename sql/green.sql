@@ -25,7 +25,7 @@ create table category(
 
 insert into category value('食','素食');
 insert into category value('食','非素食');
-insert into category value('衣','');
+insert into category value('衣','衣');
 insert into category value('住','月水電費');
 insert into category value('住','月瓦斯費');
 insert into category value('行','油費');
@@ -35,7 +35,7 @@ insert into category value('行','公車');
 insert into category value('行','鐵路');
 insert into category value('行','長程飛機');
 insert into category value('行','短程飛機');
-insert into category value('其他','具有綠色標章 ');
+insert into category value('其他','具有綠色標章');
 insert into category value('其他','非綠色標章');
 
 #店家類別資料庫
