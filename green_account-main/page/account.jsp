@@ -1,11 +1,10 @@
-<%@ page language="java"%>
 <%@ page contentType="text/html"%>
-<%@ page pageEncoding="UTF-8"%>
-<%@ page import ="java.sql.*"%>
-<%@ include file = "connectsql.jsp" %> 
+<%@page pageEncoding="UTF-8"%>
+<%@ page language="java"%>
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="javax.servlet.*,java.text.*"%>
-<%@ page import="java.sql.*"%>
+<%@ page import ="java.sql.*"%>
+<%@include file = "connectsql.jsp" %> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,18 +38,24 @@
             java.util.Date da2 = sdf.parse(date2); 
             java.util.Date date = new java.util.Date();
             java.sql.Date now1 = new java.sql.Date(date.getTime()); 
-            boolean a = da1.before(da2);
             boolean b = da1.before(now1);
             boolean c = da2.before(now1);
+            boolean a = da1.before(da2); //第一個不可以比第二個後面
+            boolean d = da1.equals(da2);
+            boolean e = da2.equals(da1);
 
-            if(!a){
+            if(e||d){
+                da1=da2;
+            }
+            else if(!a){
                 %>
                     <script type="text/javascript">
-                        alert("終止日期請勿超過起始日期");
+                        alert("起始日期請勿超過終止日期");
                         history.back();
                     </script>                 
                 <%
             }
+
             if(!b||!c){
                 %>
                     <script type="text/javascript">
@@ -62,10 +67,8 @@
         }
         else{
             date1="";
-            date2="";
+           date2="";
         }
-
-        sql= "SELECT * FROM `vip` WHERE `vAccount`=?";
 
 %>
     <main>
@@ -96,7 +99,6 @@
                         <option value="便利商店一般">便利商店_一般</option>
                         <option value="綠色商店">綠色商店</option>
                         <option value="其他">其他</option>
-                       
                     </select>
                     <script>
                         department=new Array();
@@ -122,8 +124,8 @@
                         }
                     </script>
                     <select name="way" id="add_buy">
-                        <option value="自行到店">自行到店</option>
-                        <option value="網購">網購</option>
+                        <option value="自購">自行到店</option>
+                        <option value="網路">網購</option>
                     </select>
                     <input type="text" name="pname" placeholder="品名" id="productName">
                 </form>
@@ -172,18 +174,156 @@
                         <p >～</p>
                         <p id="record_data2"><%out.println(date2);%></p>
                     </div>
-<%-- 紀錄 --%>
-               
-<%-- 紀錄  --%>
+<%-- 紀錄 --%>            <!---->
+                <form action="delete_record.jsp">
+                    <table class='record_content' border="1">
+<%
+    int totoal_co2=0;
+    int totoal_money=0;
+    String olddate="";
+    if(  date1.equals("") &&  date2.equals("")){
+        sql= "SELECT * FROM `trade` WHERE `tAccount`=? order by `tDate`";
+        PreparedStatement ps= con.prepareStatement(sql);
+        ps.setString(1, acc);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+            olddate = rs.getString("tDate");
+            out.println("<caption>"+rs.getString("tDate"));
+            out.println("<button type='submit' class='change' onclick='deleteFunction()'>刪除</button></caption>");
+            out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
+            out.println("<td>"+rs.getString("tShape")+"</td>");
+            out.println("<td>"+rs.getString("tGoods")+"</td>");
+            out.println("<td>"+rs.getString("tShop")+"</td>");
+            out.println("<td>"+rs.getInt("tUnit")+"</td>");
+            out.println("<td>金額："+rs.getInt("tMoney")+"元</td>");
+            out.println("<td>碳足跡："+rs.getInt("tCO2")+"kg</td>");
+            out.println("</tr>");
+        }
+        
+
+        while(rs.next()){
+            if(rs.getString("tDate").equals(olddate)){
+                out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
+                out.println("<td>"+rs.getString("tShape")+"</td>");
+                out.println("<td>"+rs.getString("tGoods")+"</td>");
+                out.println("<td>"+rs.getString("tShop")+"</td>");
+                out.println("<td>"+rs.getInt("tUnit")+"</td>");
+                out.println("<td>金額："+rs.getInt("tMoney")+"元</td>");
+                out.println("<td>碳足跡："+rs.getInt("tCO2")+"kg</td>");
+                out.println("</tr>");
+            }
+            else{
+                out.println("</table>");
+                out.println("<table class='record_content' border='1'>");
+                out.println("<caption>"+rs.getString("tDate")+"</caption>");
+                out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
+                out.println("<td>"+rs.getString("tShape")+"</td>");
+                out.println("<td>"+rs.getString("tGoods")+"</td>");
+                out.println("<td>"+rs.getString("tShop")+"</td>");
+                out.println("<td>"+rs.getInt("tUnit")+"</td>");
+                out.println("<td>金額："+rs.getInt("tMoney")+"元</td>");
+                out.println("<td>碳足跡："+rs.getInt("tCO2")+"kg</td>");
+                out.println("</tr>");
+                olddate = rs.getString("tDate");
+            }
+
+        }
+        sql= "SELECT sum(`tMoney`) FROM `trade` WHERE (`tAccount`=?)";
+        ps= con.prepareStatement(sql);
+        ps.setString(1, acc);
+        rs = ps.executeQuery();
+        rs.next();
+        totoal_money = rs.getInt(1);
+        sql= "SELECT sum(`tCO2`) FROM `trade` WHERE (`tAccount`=?)";
+        ps= con.prepareStatement(sql);
+        ps.setString(1, acc);
+        rs = ps.executeQuery();
+        rs.next();
+        totoal_co2 = rs.getInt(1);
+    }
+    else{ 
+        sql= "SELECT * FROM `trade` WHERE `tAccount`=? AND (`tDate` BETWEEN '"+date1+"' AND '"+date2+"' )order by `tDate`";
+        PreparedStatement ps= con.prepareStatement(sql);
+        ps.setString(1, acc);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+            olddate = rs.getString("tDate");
+            out.println("<caption>"+rs.getString("tDate"));
+            out.println("<button class='change' onclick='deleteFunction()'>刪除</button></caption>");
+            out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
+            out.println("<td>"+rs.getString("tShape")+"</td>");
+            out.println("<td>"+rs.getString("tGoods")+"</td>");
+            out.println("<td>"+rs.getString("tShop")+"</td>");
+            out.println("<td>"+rs.getInt("tUnit")+"</td>");
+            out.println("<td>金額："+rs.getInt("tMoney")+"元</td>");
+            out.println("<td>碳足跡："+rs.getInt("tCO2")+"kg</td>");
+            out.println("</tr>");
+        }
+
+        while(rs.next()){
+            if(rs.getString("tDate").equals(olddate)){
+                out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
+                out.println("<td>"+rs.getString("tShape")+"</td>");
+                out.println("<td>"+rs.getString("tGoods")+"</td>");
+                out.println("<td>"+rs.getString("tShop")+"</td>");
+                out.println("<td>"+rs.getInt("tUnit")+"</td>");
+                out.println("<td>金額："+rs.getInt("tMoney")+"元</td>");
+                out.println("<td>碳足跡："+rs.getInt("tCO2")+"kg</td>");
+                out.println("</tr>");
+            }
+            else{out.println("</table>");
+                out.println("<table class='record_content' border='1'>");
+                out.println("<caption>"+rs.getString("tDate")+"</caption>");
+                out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
+                out.println("<td>"+rs.getString("tShape")+"</td>");
+                out.println("<td>"+rs.getString("tGoods")+"</td>");
+                out.println("<td>"+rs.getString("tShop")+"</td>");
+                out.println("<td>"+rs.getInt("tUnit")+"</td>");
+                out.println("<td>金額："+rs.getInt("tMoney")+"元</td>");
+                out.println("<td>碳足跡："+rs.getInt("tCO2")+"kg</td>");
+                out.println("</tr>");
+                olddate = rs.getString("tDate");
+            }
+
+        }
+        sql= "SELECT sum(`tMoney`) FROM `trade` WHERE (`tAccount`=?)";
+        ps= con.prepareStatement(sql);
+        ps.setString(1, acc);
+        rs = ps.executeQuery();
+        rs.next();
+        totoal_money = rs.getInt(1);
+        sql= "SELECT sum(`tCO2`) FROM `trade` WHERE (`tAccount`=?)";
+        ps= con.prepareStatement(sql);
+        ps.setString(1, acc);
+        rs = ps.executeQuery();
+        rs.next();
+        totoal_co2 = rs.getInt(1);
+
+    }
+
+    
+        
+%><script>
+                        function deleteFunction()
+                        {
+                            y = confirm("請注意！每刪除一筆紀錄將扣除一點！")
+                            if(y==true)
+                                alert("已扣點 ( ´; ω ; )")
+                        }
+                    </script>
+                    </table>
+                </form>
+                    
+                    
                     </div>
                     <div id="record_sum" >
                         <table>
                             <tr>
                                 <td>總計　</td>
                                 <td>金額：　</td>
-                                <td>120</td>
+                                <td><%out.println(totoal_money);%></td>
                                 <td>元　碳足跡：　</td>
-                                <td id="record_sum_g">460</td>
+                                <td id="record_sum_g"><%out.println(totoal_co2);%></td>
                                 <td>　kg</td>
                             </tr>
                         </table>
@@ -192,17 +332,16 @@
             </div>
         </aside>
     </main>
-
-<% 
-}
-%>  
     <div id="to_top">
         <div id="top"></div>
         <a href="#">
             <img src="../asset/img/earth-day.png" alt="" id="top_btn">
         </a>
     </div>
-
+<%
+    }
+%>
+   
     <footer></footer>
     <iframe src="../page/nav.html" id="navBar" frameborder="0" scrolling="no"></iframe>
 </body>
