@@ -16,7 +16,7 @@
     <style>
         @import url(../asset/css/main.css);
         @import url(../asset/css/nav.css);
-        @import url(../asset/css/account.css);
+        @import url(../../account.css);
         @import url(../asset/css/animation.css);
     </style>
 </head>
@@ -31,13 +31,14 @@
         String date2 = request.getParameter("d2"); //日期篩選
 
         //下拉式清單
-
+        SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" ); 
+        java.util.Date date = new java.util.Date();
+        java.sql.Date now1 = new java.sql.Date(date.getTime()); 
+        String cur =sdf.format(now1);
         if( date1 !=null  && !date1.equals("")&&date2 !=null  && !date2.equals("")){
-            SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" ); 
+            
             java.util.Date da1 = sdf.parse(date1); 
             java.util.Date da2 = sdf.parse(date2); 
-            java.util.Date date = new java.util.Date();
-            java.sql.Date now1 = new java.sql.Date(date.getTime()); 
             boolean b = da1.before(now1);
             boolean c = da2.before(now1);
             boolean a = da1.before(da2); //第一個不可以比第二個後面
@@ -116,7 +117,8 @@
                         }
                     </script>
                     <input type="number" name="unit" id="add_unit" placeholder="單位" min="0" title="行車公里/公車、捷運站數/份數/飛機次數/油公升數">
-                    <button type="submit" id="add_btn" onclick="addFunction()" >新增</button><br>
+
+                    <button type="submit" id="add_btn" onclick="addFunction()">新增</button><br>
                     <script>
                         function addFunction()
                         {
@@ -130,18 +132,68 @@
                     <input type="text" name="pname" placeholder="品名" id="productName">
                 </form>
             </div>
+<%
 
+        sql= "SELECT SUM(`tMoney`) FROM `trade` WHERE `tAccount`=? AND `tDate`=?";
+        PreparedStatement ps1= con.prepareStatement(sql);
+        ps1.setString(1, acc);
+        ps1.setString(2, cur);
+        ResultSet rs1 = ps1.executeQuery();
+        rs1.next();
+        int todaymoney = rs1.getInt(1);
+        sql= "SELECT SUM(`tCO2`) FROM `trade` WHERE `tAccount`=? AND `tDate`=?";
+        ps1= con.prepareStatement(sql);
+        ps1.setString(1, acc);
+        ps1.setString(2, cur);
+        rs1 = ps1.executeQuery();
+        rs1.next();
+        int todaycarbon = rs1.getInt(1);
+
+        String standerd = "";
+        if(todaycarbon<7&&todaycarbon>=0){
+            standerd="低";
+        }
+        else if(todaycarbon>=7&&todaycarbon<20){
+            standerd="理想";
+        }
+        else if(todaycarbon>=20&&todaycarbon<27){
+            standerd="普通";
+        }
+        else{
+            standerd="高";
+        }
+
+
+        
+        sql= "SELECT `` FROM `vip` WHERE `vAccount`=?"; // 放可用碳排欄位
+        ps.setString(1,acc);
+        ps= con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        rs.next();
+        int haveco = rs.getInt(1);
+
+%>
             <div id="today">
                 <p>本日消費金額：</p>
-                    <p>500</p>
+                    <p><%out.println(todaymoney);%></p>
                     <p>元 碳排量：</p>
-                    <p>460</p>
+                    <p><%out.println(todaycarbon);%></p>
                     <p>kg 碳排量指標 </p>
-                    <p>普通</p>
-                    <button type="submit" onclick="show()">
-                        已省下碳排量 <br>
-                        500
-                    </button>
+                    <p><%out.println(standerd);%></p>
+                    <%
+                        if(haveco>0){
+                            out.println("<button type='submit' onclick='show()'>");
+                            out.println("已省下碳排量 <br>");
+                            out.println(haveco+"kg");
+                            out.println("</button>");
+                        }
+                        else{
+                            out.println("<button type='submit'>");
+                            out.println("碳排量已超過理想值<br>");
+                            out.println(-haveco+"kg");
+                            out.println("</button>");
+                        }
+                    %>
                 <script>
                     function show(){
                         window.prompt("輸入贈與人會員編號")
@@ -303,7 +355,7 @@
 
     
         
-%><script>
+%>                  <script>
                         function deleteFunction()
                         {
                             y = confirm("請注意！每刪除一筆紀錄將扣除一點！")
