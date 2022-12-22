@@ -1,2 +1,15 @@
-INSERT INTO `trade` VALUES ( ' count_id  ',' acc  ', ' add_date  ', ' store  ', ' pname  ', ' typeDetail  ', ' way  ', ' money  ','unit', ' count_id ')
-add_date=2022-12-15&type=衣&typeDetail=衣&money=5554&store=連鎖商店&unit=544&way=網購&pname=4545
+<%@ page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+<%@ page language="java"%>
+<%@ page import="java.io.*,java.util.*"%>
+<%@ page import="javax.servlet.*,java.text.*"%>
+<%@ page import ="java.sql.*"%>
+<%@include file = "connectsql.jsp" %> 
+<%
+
+        SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" ); 
+        java.util.Date date = new java.util.Date();
+        java.sql.Date now1 = new java.sql.Date(date.getTime()); 
+        String a = sdf.format(now1);
+        out.println(a);
+%>

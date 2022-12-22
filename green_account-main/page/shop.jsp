@@ -46,6 +46,7 @@
             <section class='goods_aera'>
                 <%
                     int k = 1;
+                    rs2.next();
                     while(rs2.next()){
                         if (k%5!=0){
                             k++;
