@@ -199,7 +199,13 @@
                     %>
                 <script>
                     function show(){
-                        window.prompt("輸入贈與人會員編號")
+                        var give_acc = window.prompt("輸入贈與人會員帳號");
+                        if(give_acc!=""){
+                            location='giveco2.jsp?gacc='+give_acc;
+                        }
+                        else{
+                            location='account.jsp'
+                        }
                     }
                 </script>
             </div>
