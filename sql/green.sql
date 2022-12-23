@@ -8,7 +8,16 @@ create table users(
 	uAccount varchar(20) PRIMARY KEY, #帳號
 	uPassword varchar(20) #密碼
 );
+
 insert into users value('user','1234');
+
+#總碳排自動更新資料表
+DROP table IF EXISTS CO2;
+create table CO2(
+	vCO2 int, #會員總碳排
+    COdate datetime #會員總碳排
+);
+
 #會員基本資料表
 DROP table IF EXISTS vip;
 create table vip(
@@ -21,7 +30,8 @@ create table vip(
     vPhone varchar(10), #會員電話
 	vAddress varchar(60), #會員地址
     vPoint int, #會員點數
-	vCO2 int #會員總碳排
+	vCO2 int, #會員總碳排
+	FOREIGN KEY(vCO2) REFERENCES CO2(vCO2)
 );
 
 #類別細項資料庫
