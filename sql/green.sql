@@ -25,6 +25,9 @@ create table vip(
     vPoint int, #會員點數
 	vCO2 int #會員總碳排
 );
+-- insert into vip value('user','1234',"ddd1","1","2222-02-22","1","1","1","1","-5");
+-- UPDATE `vip` SET `vPoint`=1234 WHERE `vAccount` = "ddd";
+-- UPDATE `vip` SET `vCO2`=3 WHERE `vAccount` = "ddd";
 
 DROP event IF EXISTS CO_date;
 Create event CO_date

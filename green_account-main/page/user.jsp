@@ -116,7 +116,7 @@
 
                                                 <div class="btndiv">
                                                     <input type="submit" value="確認" class="btn_update">
-                                                    <input type="reset" value="取消" class="btn_update">
+                                                    <input type="reset" value="取消" class="btn_update" onclick="userupdate.close()">
                                                 </div>
                                             </div>
                                     </div>
@@ -180,6 +180,7 @@
 
                        <% }
                         %>  
+
     <script>
         let btn = document.querySelector("#poitnbtn")
         let btn2 = document.querySelector("#update")
