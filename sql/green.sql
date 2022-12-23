@@ -13,7 +13,8 @@ create table vip(
     vMail varchar(60), #會員電子信箱
     vPhone varchar(10), #會員電話
 	vAddress varchar(60), #會員地址
-    vPoint int #會員點數
+    vPoint int, #會員點數
+	vCO2 int
 );
 
 #類別細項資料庫
@@ -80,16 +81,6 @@ create table trade(
 	FOREIGN KEY(tShop) REFERENCES store(sShop),
     FOREIGN KEY(tShape) REFERENCES pattern(pShape)
 
-);
-
-#每日碳足跡資料表
-DROP table IF EXISTS footprint;
-create table footprint(
-    fAccount varchar(2) PRIMARY KEY, #會員帳號
-	fDate date, #交易日期
-	fCO2 int , #已使用碳足跡
-	fusable int , #可使用碳足跡
-    FOREIGN KEY(fAccount) REFERENCES vip(vAccount)
 );
 
 #探權轉移表
