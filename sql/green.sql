@@ -20,23 +20,24 @@ create table vip(
 DROP table IF EXISTS category;
 create table category(
     cType varchar(2), #類別
-    cDetail varchar(10) PRIMARY KEY #類別細項
+    cDetail varchar(10) PRIMARY KEY ,#類別細項
+    ctranslate varchar(10)  #計算
 );
 
-insert into category value('食','素食');
-insert into category value('食','非素食');
-insert into category value('衣','衣');
-insert into category value('住','月水電費');
-insert into category value('住','月瓦斯費');
-insert into category value('行','油費');
-insert into category value('行','自駕');
-insert into category value('行','捷運');
-insert into category value('行','公車');
-insert into category value('行','鐵路');
-insert into category value('行','長程飛機');
-insert into category value('行','短程飛機');
-insert into category value('其他','具有綠色標章');
-insert into category value('其他','非綠色標章');
+insert into category value('食','素食','1.5');#份
+insert into category value('食','非素食','2.4');#份
+insert into category value('衣','衣','16');#件
+insert into category value('住','月水電費','189');#月
+insert into category value('住','月瓦斯費','189');#月
+insert into category value('行','油費','4.62825');#公升
+insert into category value('行','自駕','0.11');#公里
+insert into category value('行','捷運','0.04');#公里
+insert into category value('行','公車','0.04');#公里
+insert into category value('行','鐵路','0.032');#公里
+insert into category value('行','長程飛機','1980');#>4小時/次數
+insert into category value('行','短程飛機','495');#<4小時/次數
+insert into category value('其他','具有綠色標章','1');
+insert into category value('其他','非綠色標章','1');
 
 #店家類別資料庫
 DROP table IF EXISTS store;
@@ -54,11 +55,12 @@ insert into store value('其他');
 #消費型態資料庫
 DROP table IF EXISTS pattern;
 create table pattern(
-    pShape varchar(2) PRIMARY KEY #消費型態
+    pShape varchar(2) PRIMARY KEY ,#消費型態
+	ptranslate varchar(10)  #計算
 );
 
-insert into pattern value('網路');
-insert into pattern value('自購');
+insert into pattern value('網路','0.6');#一般實體到店消費*0.6
+insert into pattern value('自購','');
 
 #交易紀錄
 DROP table IF EXISTS trade;
@@ -78,6 +80,16 @@ create table trade(
 	FOREIGN KEY(tShop) REFERENCES store(sShop),
     FOREIGN KEY(tShape) REFERENCES pattern(pShape)
 
+);
+
+#每日碳足跡資料表
+DROP table IF EXISTS footprint;
+create table footprint(
+    fAccount varchar(2) PRIMARY KEY, #會員帳號
+	fDate date, #交易日期
+	fCO2 int , #已使用碳足跡
+	fusable int , #可使用碳足跡
+    FOREIGN KEY(fAccount) REFERENCES vip(vAccount)
 );
 
 #探權轉移表
@@ -254,6 +266,7 @@ create table goods(
     gStock int #產品庫存
 );
 
+insert into goods value('0','手續費','','1','0');
 insert into goods value('1','超實用筆記本(學習腳蹤)','','20','1');
 insert into goods value('2','一包種子','','35','1');
 insert into goods value('3','一副口罩','','50','1');
@@ -300,3 +313,4 @@ create table vactivity(
     FOREIGN KEY(vaAccount) REFERENCES vip(vAccount),
     FOREIGN KEY(vaID) REFERENCES activity(aID)
 );
+
