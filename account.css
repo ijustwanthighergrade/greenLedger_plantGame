@@ -143,8 +143,16 @@ select{
     width: 680px; height: 760px;
     padding: 30px 10px 30px 10px;
     font-family: "微軟正黑體";
-    overflow: auto;
+    overflow: hidden;
 }
+
+.record_content_area{
+    overflow: auto;
+    height: 620px;
+    width: 100%;
+}
+
+
 
 #record_title{
     display: flex;
@@ -190,7 +198,6 @@ select{
 
 
 #record_sum{
-    background-color: #85BDA6;
     position: relative;
     top: -870px;
     margin: 30px 60px 0px 60px;
