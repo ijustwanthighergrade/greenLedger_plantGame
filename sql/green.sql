@@ -14,7 +14,7 @@ create table vip(
     vPhone varchar(10), #會員電話
 	vAddress varchar(60), #會員地址
     vPoint int, #會員點數
-	vCO2 int
+	vCO2 int #會員總碳排
 );
 
 #類別細項資料庫
