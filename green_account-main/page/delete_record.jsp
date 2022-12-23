@@ -64,7 +64,7 @@ if(session.getAttribute("mem_account")!=null||!session.getAttribute("mem_account
 
                 //3. 更新使用者資訊
                 if(day.equals(cur)){
-                    havecarbon -= rs.getInt("tCO2"); //加使用者碳排
+                    havecarbon += rs.getInt("tCO2"); //加使用者碳排
                 }
                 else{
                     havecarbon = rs.getInt("tCO2"); //加使用者碳排
@@ -103,8 +103,8 @@ if(session.getAttribute("mem_account")!=null||!session.getAttribute("mem_account
 
                 String sqln = "INSERT INTO `tgoods` VALUES (?, ? , '0' , '"+credate+"')";
                 PreparedStatement psincart = con.prepareStatement(sqln);
-                psincart.setString(1,acc);
-                psincart.setInt(2,count_id);
+                psincart.setInt(1,count_id);
+                psincart.setString(2,acc);
                 c = psincart.executeUpdate();
 
 
