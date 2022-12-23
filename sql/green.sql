@@ -30,8 +30,8 @@ insert into category value('食','非素食','2.4');#份
 insert into category value('衣','衣','16');#件
 insert into category value('住','月水電費','189');#月
 insert into category value('住','月瓦斯費','189');#月
-insert into category value('行','油費','4.62825');#公升
-insert into category value('行','自駕','0.11');#公里
+insert into category value('行','加油公升數','4.62825');#公升
+insert into category value('行','自駕油費','0.11');#公里
 insert into category value('行','捷運','0.04');#公里
 insert into category value('行','公車','0.04');#公里
 insert into category value('行','鐵路','0.032');#公里
