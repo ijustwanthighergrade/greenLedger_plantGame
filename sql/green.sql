@@ -28,6 +28,10 @@ create table vip(
 -- insert into vip value('user','1234',"ddd1","1","2222-02-22","1","1","1","1","-5");
 -- UPDATE `vip` SET `vPoint`=1234 WHERE `vAccount` = "ddd";
 -- UPDATE `vip` SET `vCO2`=3 WHERE `vAccount` = "ddd";
+-- select * from vip;
+-- select * from carbon;
+
+
 
 DROP event IF EXISTS CO_date;
 Create event CO_date
