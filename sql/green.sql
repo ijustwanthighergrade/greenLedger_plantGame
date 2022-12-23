@@ -278,12 +278,13 @@ insert into goods value('9','限量隨機馬克杯','','2000','1');
 #點數商店交易資料表
 DROP table IF EXISTS tgoods;
 create table tgoods(
+    tgoodsid int,
 	tgAccount VARCHAR(20), #會員編號
 	tgID int, #產品編號
     tgDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,#日期
     FOREIGN KEY(tgAccount) REFERENCES vip(vAccount),
     FOREIGN KEY(tgID) REFERENCES goods(gID),
-    PRIMARY KEY(tgAccount,tgDate)
+    PRIMARY KEY(tgAccount,tgoodsid)
 );
 
 #活動基本表
