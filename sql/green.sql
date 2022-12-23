@@ -2,6 +2,13 @@ DROP database IF EXISTS green;
 create database green;
 use green;
 
+#管理員資料表
+DROP table IF EXISTS users;
+create table users(
+	uAccount varchar(20) PRIMARY KEY, #帳號
+	uPassword varchar(20) #密碼
+);
+insert into users value('user','1234');
 #會員基本資料表
 DROP table IF EXISTS vip;
 create table vip(
@@ -304,4 +311,3 @@ create table vactivity(
     FOREIGN KEY(vaAccount) REFERENCES vip(vAccount),
     FOREIGN KEY(vaID) REFERENCES activity(aID)
 );
-
