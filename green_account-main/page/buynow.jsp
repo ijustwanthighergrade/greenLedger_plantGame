@@ -12,35 +12,33 @@
     else{    
         try{
             request.setCharacterEncoding("UTF-8");
-            response.setCharacterEncoding("UTF-8");              
-
-                    String acc = session.getAttribute("mem_account").toString();   
-                    Integer id = Integer.parseInt(request.getParameter("id"));
+            response.setCharacterEncoding("UTF-8");  
+            String acc = session.getAttribute("mem_account").toString();   
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            
+            try{    
                 
-                try{    
-                    
-                    
-                    //減少商品庫存&取出點數 更新使用者點數
-                    sql= "SELECT `gPoint`,`gStock` FROM `goods` WHERE (`gID`=?)";
-                    PreparedStatement ps = con.prepareStatement(sql);
-                    ps.setInt(1,id);
-                    ResultSet rs = ps.executeQuery();
-                    rs.next();
-                    
-                    
-                    int gstock = rs.getInt("gStock"); //商品庫存
-                    int gpoint = rs.getInt("gPoint"); //商品點數
+                
+                //減少商品庫存&取出點數 更新使用者點數
+                sql= "SELECT `gPoint`,`gStock` FROM `goods` WHERE (`gID`=?)";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setInt(1,id);
+                ResultSet rs = ps.executeQuery();
+                rs.next();
+                int gstock = rs.getInt("gStock"); //商品庫存
+                int gpoint = rs.getInt("gPoint"); //商品點數
+                sql= "SELECT `vPoint` FROM `vip` WHERE (`vAccount`=?)";
+                ps = con.prepareStatement(sql);
+                ps.setString(1,acc);
+                rs = ps.executeQuery();
+                rs.next();
+                int vpoint = rs.getInt("vPoint"); //使用者點數
 
+                if(vpoint>0){
                     if(gstock>0){
                         gstock--;
-
-                        sql= "SELECT `vPoint` FROM `vip` WHERE (`vAccount`=?)";
-                        ps = con.prepareStatement(sql);
-                        ps.setString(1,acc);
-                        rs = ps.executeQuery();
-                        rs.next();
-                        int vpoint = rs.getInt("vPoint"); //使用者點數
-                        vpoint-=gpoint;                   //使用者點數 - 兌換之商品點數 => 更新使用者點數
+                        
+                        vpoint-=gpoint; //使用者點數 - 兌換之商品點數 => 更新使用者點數
 
 
                         String sql1 = "UPDATE `vip` SET `vPoint`=? WHERE `vAccount`=?";
@@ -84,46 +82,57 @@
 
                         out.println(c +"<br>"+ c_vip+"<br>" +c_goods);
                         if ( c > 0 && c_vip > 0 && c_goods > 0){
-                            con.close();%>
-                                <script type="text/javascript">
-                                    alert("兌換成功");
-                                    
-                                </script>
+                            con.close(); %>
 
-                    <%response.sendRedirect("shop.jsp");
+                            <script type="text/javascript">
+                                alert("兌換成功");
+                            </script>
+
+                        <% 
+                        response.sendRedirect("shop.jsp");
+                            }
                         }
+                        else{
+                        %>
+                            <script type="text/javascript">
+                                alert("庫存不足，已無法兌換");
+                                history.back()
+                            </script>
+
+                        <%
+
                     }
-                    else{%>
+
+                }
+                else{
+                    %>
                         <script type="text/javascript">
-                            alert("庫存不足，已無法兌換");
+                            alert("點數不足無法兌換");
                             history.back()
                         </script>
 
                     <%
-
-                    }
-
-
-                        
-
-                    }catch(NumberFormatException ex){ 
-%>
-                        <script type="text/javascript">
-                            alert("操作錯誤，系統將返回產品頁");
-                            window.history.go(-2);
-                        </script>
-
-                    <% } 
-                    }catch (SQLException sExec){ 
-                    
-                    %>
-
-                        <script type="text/javascript">
-                            alert("操作錯誤，系統將返回產品頁");
-                            window.history.go(-2);
-                        </script>
-
-                <% 
-                }    
                 }
-                %>                      
+
+                    
+
+                }catch(NumberFormatException ex){ %>
+
+                    <script type="text/javascript">
+                        alert("操作錯誤，系統將返回產品頁");
+                        window.history.go(-2);
+                    </script>
+
+                <% } 
+                }catch (SQLException sExec){ 
+                %>
+
+                    <script type="text/javascript">
+                        alert("操作錯誤，系統將返回產品頁");
+                        window.history.go(-2);
+                    </script>
+
+            <% 
+            }    
+            }
+            %>                      

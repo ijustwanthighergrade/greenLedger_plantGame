@@ -35,6 +35,9 @@
         java.util.Date date = new java.util.Date();
         java.sql.Date now1 = new java.sql.Date(date.getTime()); 
         String cur =sdf.format(now1);
+
+        
+
         if( date1 !=null  && !date1.equals("")&&date2 !=null  && !date2.equals("")){
             
             java.util.Date da1 = sdf.parse(date1); 
@@ -107,7 +110,7 @@
                         department[1]=["素食", "非素食"];	
                         department[2]=["衣"];
                         department[3]=["月水電費","月瓦斯費"];
-                        department[4]=["油費","自駕", "捷運", "公車", "鐵路", "長程飛機", "短程飛機"];
+                        department[4]=["自駕油費", "捷運", "公車", "鐵路", "長程飛機", "短程飛機"];
                         department[5]=["具有綠色標章", "非綠色標章"];
 
                         function renew(index){
@@ -116,7 +119,7 @@
                                 document.myForm.typeDetail.length=department[index].length;	// 刪除多餘的選項
                         }
                     </script>
-                    <input type="number" name="unit" id="add_unit" placeholder="單位" min="0" title="行車公里/公車、捷運站數/份數/飛機次數/油公升數">
+                    <input type="number" name="unit" id="add_unit" placeholder="單位" min="0" title="火車公里/公車、捷運站數/份數/飛機次數/加油公升數">
 
                     <button type="submit" id="add_btn" onclick="addFunction()">新增</button><br>
                     <script>
@@ -164,10 +167,10 @@
         }
 
 
-        
-        sql= "SELECT `` FROM `vip` WHERE `vAccount`=?"; // 放可用碳排欄位
+        ResultSet rs;
+        sql= "SELECT `vCO2` FROM `vip` WHERE `vAccount`=?"; // 放可用碳排欄位
+        PreparedStatement ps= con.prepareStatement(sql);
         ps.setString(1,acc);
-        ps= con.prepareStatement(sql);
         rs = ps.executeQuery();
         rs.next();
         int haveco = rs.getInt(1);
@@ -226,6 +229,8 @@
                         <p >～</p>
                         <p id="record_data2"><%out.println(date2);%></p>
                     </div>
+                    <div class="record_content_area">
+                        <div class="record_content_area_1">
 <%-- 紀錄 --%>            <!---->
                 <form action="delete_record.jsp">
                     <table class='record_content' border="1">
@@ -235,15 +240,15 @@
     String olddate="";
     if(  date1.equals("") &&  date2.equals("")){
         sql= "SELECT * FROM `trade` WHERE `tAccount`=? order by `tDate`";
-        PreparedStatement ps= con.prepareStatement(sql);
+        ps= con.prepareStatement(sql);
         ps.setString(1, acc);
-        ResultSet rs = ps.executeQuery();
+         rs = ps.executeQuery();
         if(rs.next()){
             olddate = rs.getString("tDate");
             out.println("<caption>"+rs.getString("tDate"));
             out.println("<button type='submit' class='change' onclick='deleteFunction()'>刪除</button></caption>");
             out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
-            out.println("<td>"+rs.getString("tShape")+"</td>");
+            out.println("<td>"+rs.getString("tDetail")+"</td>");
             out.println("<td>"+rs.getString("tGoods")+"</td>");
             out.println("<td>"+rs.getString("tShop")+"</td>");
             out.println("<td>"+rs.getInt("tUnit")+"</td>");
@@ -256,7 +261,7 @@
         while(rs.next()){
             if(rs.getString("tDate").equals(olddate)){
                 out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
-                out.println("<td>"+rs.getString("tShape")+"</td>");
+                out.println("<td>"+rs.getString("tDetail")+"</td>");
                 out.println("<td>"+rs.getString("tGoods")+"</td>");
                 out.println("<td>"+rs.getString("tShop")+"</td>");
                 out.println("<td>"+rs.getInt("tUnit")+"</td>");
@@ -269,7 +274,7 @@
                 out.println("<table class='record_content' border='1'>");
                 out.println("<caption>"+rs.getString("tDate")+"</caption>");
                 out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
-                out.println("<td>"+rs.getString("tShape")+"</td>");
+                out.println("<td>"+rs.getString("tDetail")+"</td>");
                 out.println("<td>"+rs.getString("tGoods")+"</td>");
                 out.println("<td>"+rs.getString("tShop")+"</td>");
                 out.println("<td>"+rs.getInt("tUnit")+"</td>");
@@ -295,15 +300,15 @@
     }
     else{ 
         sql= "SELECT * FROM `trade` WHERE `tAccount`=? AND (`tDate` BETWEEN '"+date1+"' AND '"+date2+"' )order by `tDate`";
-        PreparedStatement ps= con.prepareStatement(sql);
+        ps= con.prepareStatement(sql);
         ps.setString(1, acc);
-        ResultSet rs = ps.executeQuery();
+        rs = ps.executeQuery();
         if(rs.next()){
             olddate = rs.getString("tDate");
             out.println("<caption>"+rs.getString("tDate"));
             out.println("<button class='change' onclick='deleteFunction()'>刪除</button></caption>");
             out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
-            out.println("<td>"+rs.getString("tShape")+"</td>");
+            out.println("<td>"+rs.getString("tDetail")+"</td>");
             out.println("<td>"+rs.getString("tGoods")+"</td>");
             out.println("<td>"+rs.getString("tShop")+"</td>");
             out.println("<td>"+rs.getInt("tUnit")+"</td>");
@@ -315,7 +320,7 @@
         while(rs.next()){
             if(rs.getString("tDate").equals(olddate)){
                 out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
-                out.println("<td>"+rs.getString("tShape")+"</td>");
+                out.println("<td>"+rs.getString("tDetail")+"</td>");
                 out.println("<td>"+rs.getString("tGoods")+"</td>");
                 out.println("<td>"+rs.getString("tShop")+"</td>");
                 out.println("<td>"+rs.getInt("tUnit")+"</td>");
@@ -327,7 +332,7 @@
                 out.println("<table class='record_content' border='1'>");
                 out.println("<caption>"+rs.getString("tDate")+"</caption>");
                 out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
-                out.println("<td>"+rs.getString("tShape")+"</td>");
+                out.println("<td>"+rs.getString("tDetail")+"</td>");
                 out.println("<td>"+rs.getString("tGoods")+"</td>");
                 out.println("<td>"+rs.getString("tShop")+"</td>");
                 out.println("<td>"+rs.getInt("tUnit")+"</td>");
@@ -338,6 +343,8 @@
             }
 
         }
+                
+                 
         sql= "SELECT sum(`tMoney`) FROM `trade` WHERE (`tAccount`=?)";
         ps= con.prepareStatement(sql);
         ps.setString(1, acc);
@@ -355,7 +362,8 @@
 
     
         
-%>                  <script>
+%>       
+            <script>
                         function deleteFunction()
                         {
                             y = confirm("請注意！每刪除一筆紀錄將扣除一點！")
@@ -367,6 +375,8 @@
                 </form>
                     
                     
+                    </div>
+                    </div>
                     </div>
                     <div id="record_sum" >
                         <table>
