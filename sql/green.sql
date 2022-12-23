@@ -73,7 +73,7 @@ insert into pattern value('自購','');
 #交易紀錄
 DROP table IF EXISTS trade;
 create table trade(
-	tID int PRIMARY KEY, #交易編號
+	tID int , #交易編號
     tAccount varchar(20), #會員帳號
     tDate date , #交易日期
 	tShop varchar(10), #店家類別
@@ -86,8 +86,8 @@ create table trade(
     FOREIGN KEY(tAccount) REFERENCES vip(vAccount),
 	FOREIGN KEY(tDetail) REFERENCES category(cDetail),
 	FOREIGN KEY(tShop) REFERENCES store(sShop),
-    FOREIGN KEY(tShape) REFERENCES pattern(pShape)
-
+    FOREIGN KEY(tShape) REFERENCES pattern(pShape),
+    PRIMARY KEY(tID,tAccount)
 );
 
 #探權轉移表

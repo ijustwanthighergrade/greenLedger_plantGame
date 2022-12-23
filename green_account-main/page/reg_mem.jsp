@@ -42,7 +42,7 @@
         
         int y=0,y1=0;
         if( !rsp.next() ){
-            sql = "INSERT INTO `vip` VALUES ( '"+ racc + "','"+ rpwd + "', '"+ rname + "', '"+ sexual + "', '"+ rbirth + "', '"+ rmail + "', '"+ rphone + "', '"+ radd + "','"+y1+"')";
+            sql = "INSERT INTO `vip` VALUES ( '"+ racc + "','"+ rpwd + "', '"+ rname + "', '"+ sexual + "', '"+ rbirth + "', '"+ rmail + "', '"+ rphone + "', '"+ radd + "','"+y1+"','20')";
          
             y1 = con.createStatement().executeUpdate(sql);
         }
