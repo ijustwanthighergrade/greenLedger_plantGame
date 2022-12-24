@@ -49,8 +49,8 @@
                         department[0]=[];	
                         department[1]=["素食", "非素食"];	
                         department[2]=[];
-                        department[3]=["水電費/月","瓦斯費/月"];
-                        department[4]=["油費","自駕", "捷運", "公車", "鐵路", "長程飛機", "短程飛機"];
+                        department[3]=["水費/月","電費/月","瓦斯費/月"];
+                        department[4]=["自駕油費", "捷運", "公車", "鐵路", "長程飛機", "短程飛機"];
                         department[5]=["具有綠色標章", "非綠色標章"];
 
                         function renew(index){
@@ -59,7 +59,7 @@
                             document.myForm.typeDetail.length=department[index].length;	// 刪除多餘的選項
                         }
                     </script>
-                    <input type="number" id="add_unit" placeholder="單位" min="0" title="行車公里/公車、捷運站數/份數/飛機次數/油公升數">
+                    <input type="number" id="add_unit" placeholder="單位" min="0" title="火車公里/公車、捷運站數/份數/飛機次數/加油公升數/水、電、瓦斯度數">
                     <button type="submit" id="add_btn" onclick="addFunction()" >新增</button><br>
                     <script>
                         function addFunction()
