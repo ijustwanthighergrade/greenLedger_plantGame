@@ -321,7 +321,8 @@ insert into activity value('7','昨日碳排小於20kg','50');
 #點數贈與紀錄表
 DROP table IF EXISTS vactivity;
 create table vactivity(
-	vaAccount VARCHAR(20) PRIMARY KEY, #會員編號
+    id int  PRIMARY KEY,
+	vaAccount VARCHAR(20), #會員編號
 	vaID int, #活動ID
     vaDate date,#日期
     FOREIGN KEY(vaAccount) REFERENCES vip(vAccount),
