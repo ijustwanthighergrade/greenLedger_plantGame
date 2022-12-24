@@ -17,7 +17,10 @@
     String rphone = request.getParameter("rphone");
 
 
-    if( racc !=null && !racc.equals("") && rpwd != null && !rpwd.equals("")){
+    if( racc !=null && !racc.equals("") && rpwd != null && !rpwd.equals("")
+    && rname !=null && !rname.equals("") && rmail != null && !rmail.equals("")
+    && rbirth !=null && !rbirth.equals("") && sexual != null && !sexual.equals("")
+    && radd !=null && !radd.equals("") && rphone != null && !rphone.equals("")){
         
         SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" ); 
         java.util.Date d = sdf.parse(rbirth); 

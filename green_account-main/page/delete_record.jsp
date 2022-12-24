@@ -10,9 +10,6 @@
 if(session.getAttribute("mem_account")!=null||!session.getAttribute("mem_account").equals("")){
     String delete[]= request.getParameterValues("delete");
     String acc = session.getAttribute("mem_account").toString();   
-    int d =0;
-    int change =0;
-    int c=0;
     SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" ); 
     java.util.Date date = new java.util.Date();
     java.sql.Date now1 = new java.sql.Date(date.getTime()); 
@@ -26,10 +23,16 @@ if(session.getAttribute("mem_account")!=null||!session.getAttribute("mem_account
         <%            
     }
     else{
+        
         String day="";
         int tid=0;
+        
+        int d =0;
+        int change =0;
+        int c=0;
+        int k=0;
         for(int i = 0; i < delete.length ; i++){     
-
+            k++;
             //把碳排加回去 還要扣點
             tid =Integer.parseInt(delete[i]); //交易id
 
@@ -42,16 +45,15 @@ if(session.getAttribute("mem_account")!=null||!session.getAttribute("mem_account
             int havecarbon = rs.getInt(1);
             int havepoint = rs.getInt(2);
 
-            if(havepoint<=0){
+            if( havepoint <= 0 ){
                 %>
                     <script type="text/javascript">
-                        alert("點數不足，無法刪除"+tid);
+                        alert("點數不足，無法刪除");
                         history.back();
                     </script>                 
                 <%
             }
             else{
-                    
                 havepoint--; //扣使用者點數
 
                 //2.抓此紀錄碳排 
@@ -116,7 +118,7 @@ if(session.getAttribute("mem_account")!=null||!session.getAttribute("mem_account
                 if(!(d>0)){
                     %>
                         <script type="text/javascript">
-                            alert("刪除失敗");
+                            alert("刪除失敗1");
                             history.back();
                         </script>                 
                     <%
@@ -137,22 +139,19 @@ if(session.getAttribute("mem_account")!=null||!session.getAttribute("mem_account
                         </script>                 
                     <%
                 }
+                
+//                out.println(d+"<br>"+change+"<br>"+c+"<br>"+k);
             }
            
         }
-
-        
-
-
-
         if(d>0&&change>0&&c>0){
             response.sendRedirect("account.jsp");
         }
         else{
+            out.println(d+"<br>"+change+"<br>"+c);
             %>
                 <script type="text/javascript">
-                    alert("刪除失敗");
-                    history.back();
+                    alert("處理失敗");
                 </script>                 
             <%
         }    
