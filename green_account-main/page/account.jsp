@@ -81,7 +81,23 @@
         </aside>
         <aside id="main_body">
             <div id="add">
-                <form name="myForm" action="addrecord.jsp">
+            <%
+                        
+                ResultSet rs;
+                sql= "SELECT `vCO2` FROM `vip` WHERE `vAccount`=?"; // 放可用碳排欄位
+                PreparedStatement ps= con.prepareStatement(sql);
+                ps.setString(1,acc);
+                rs = ps.executeQuery();
+                rs.next();
+                int haveco = rs.getInt(1);
+
+                if(haveco<=0){
+                    out.println("<form name='myForm' action='addrecord.jsp' onSubmit='return addFunction();'>");
+                }
+                else{
+                    out.println("<form name='myForm' action='addrecord.jsp'>");
+                }
+            %>
                     <h2>日期 ：<input type="date" name="add_date" id="add_date"></h2><br>
                     <select name="type" id="add_type" onChange="renew(this.selectedIndex);">
                         <option value="" disabled selected hidden>類別</option>
@@ -120,12 +136,13 @@
                         }
                     </script>
                     <input type="number" name="unit" id="add_unit" placeholder="單位" min="0" title="火車公里/公車、捷運站數/份數/飛機次數/加油公升數">
-
-                    <button type="submit" id="add_btn" onclick="addFunction()">新增</button><br>
+                    <input type='submit' value='新增' id='add_btn'>
+                    
+                    <br>
                     <script>
                         function addFunction()
                         {
-                            alert("此紀錄碳足跡量已超標!! \n 未來您的孫子沒有家了哭哭 °(°ˊДˋ°) °");
+                            if(confirm('此紀錄碳足跡量已超標!! \n 未來您的孫子沒有家了哭哭 °(°ˊДˋ°) °'))this.form.submit();
                         }
                     </script>
                     <select name="way" id="add_buy">
@@ -167,13 +184,6 @@
         }
 
 
-        ResultSet rs;
-        sql= "SELECT `vCO2` FROM `vip` WHERE `vAccount`=?"; // 放可用碳排欄位
-        PreparedStatement ps= con.prepareStatement(sql);
-        ps.setString(1,acc);
-        rs = ps.executeQuery();
-        rs.next();
-        int haveco = rs.getInt(1);
 
 %>
             <div id="today">
@@ -199,7 +209,13 @@
                     %>
                 <script>
                     function show(){
-                        window.prompt("輸入贈與人會員編號")
+                        var give_acc = window.prompt("輸入贈與人會員帳號");
+                        if(give_acc!=""){
+                            location='giveco2.jsp?gacc='+give_acc;
+                        }
+                        else{
+                            location='account.jsp'
+                        }
                     }
                 </script>
             </div>
@@ -232,7 +248,7 @@
                     <div class="record_content_area">
                         <div class="record_content_area_1">
 <%-- 紀錄 --%>            <!---->
-                <form action="delete_record.jsp">
+                <form action="delete_record.jsp" onSubmit='return deleteFunction();'>
                     <table class='record_content' border="1">
 <%
     int totoal_co2=0;
@@ -246,7 +262,7 @@
         if(rs.next()){
             olddate = rs.getString("tDate");
             out.println("<caption>"+rs.getString("tDate"));
-            out.println("<button type='submit' class='change' onclick='deleteFunction()'>刪除</button></caption>");
+            out.println("<button type='submit' class='change'>刪除</button></caption>");
             out.println("<tr><td><input type='checkbox' name='delete' value='"+rs.getInt("tID")+"'></td>");
             out.println("<td>"+rs.getString("tDetail")+"</td>");
             out.println("<td>"+rs.getString("tGoods")+"</td>");
@@ -357,6 +373,8 @@
         rs = ps.executeQuery();
         rs.next();
         totoal_co2 = rs.getInt(1);
+
+        
 
     }
 

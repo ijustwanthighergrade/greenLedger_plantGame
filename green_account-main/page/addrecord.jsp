@@ -8,19 +8,22 @@
     String add_date=request.getParameter("add_date"); 
     String type = request.getParameter("type"); 
     String typeDetail = request.getParameter("typeDetail");
-    Integer money = Integer.parseInt(request.getParameter("money"));
+    String smoney = request.getParameter("money");
     String store = request.getParameter("store");
-    Integer unit = Integer.parseInt(request.getParameter("unit"));
+    String sunit = request.getParameter("unit");
     String way = request.getParameter("way");
     String pname = request.getParameter("pname");
 
    
     
     if(type !=null  && !type.equals("")&&typeDetail !=null  && !typeDetail.equals("") &&
-        money !=null  && !money.equals("")&&store !=null  && !store.equals("") &&
-        unit !=null  && !unit.equals("")&& way !=null  && !way.equals("") &&
+        smoney !=null  && !smoney.equals("")&&store !=null  && !store.equals("") &&
+        sunit !=null  && !sunit.equals("")&& way !=null  && !way.equals("") &&
         pname !=null  && !pname.equals("")&& add_date !=null  && !add_date.equals("")){
         
+        int money =Integer.parseInt(smoney);
+        int unit =Integer.parseInt(sunit);
+
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd" ); 
         java.util.Date d = sdf.parse(add_date); 
 

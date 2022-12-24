@@ -8,7 +8,9 @@ create table users(
 	uAccount varchar(20) PRIMARY KEY, #帳號
 	uPassword varchar(20) #密碼
 );
+
 insert into users value('user','1234');
+
 #會員基本資料表
 DROP table IF EXISTS vip;
 create table vip(
@@ -23,6 +25,19 @@ create table vip(
     vPoint int, #會員點數
 	vCO2 int #會員總碳排
 );
+-- insert into vip value('user','1234',"ddd1","1","2222-02-22","1","1","1","1","-5");
+-- UPDATE `vip` SET `vPoint`=1234 WHERE `vAccount` = "ddd";
+-- UPDATE `vip` SET `vCO2`=3 WHERE `vAccount` = "ddd";
+-- select * from vip;
+-- select * from carbon;
+
+
+
+DROP event IF EXISTS CO_date;
+Create event CO_date
+on schedule every 1 day starts DATE_ADD(DATE_ADD(CURDATE(), INTERVAL 1 DAY), INTERVAL 1 HOUR) on completion preserve do
+UPDATE vip SET vCO2=20;
+
 
 #類別細項資料庫
 DROP table IF EXISTS category;

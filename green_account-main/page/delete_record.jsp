@@ -64,10 +64,7 @@ if(session.getAttribute("mem_account")!=null||!session.getAttribute("mem_account
 
                 //3. 更新使用者資訊
                 if(day.equals(cur)){
-                    havecarbon += rs.getInt("tCO2"); //加使用者碳排
-                }
-                else{
-                    havecarbon = rs.getInt("tCO2"); //加使用者碳排
+                    havecarbon += rs.getInt("tCO2"); //加使用者可使用碳排
                 }
 
                 sql = "UPDATE `vip` SET `vCO2`=?,`vPoint`=? WHERE `vAccount` = ?"; // 本日碳排
@@ -76,6 +73,7 @@ if(session.getAttribute("mem_account")!=null||!session.getAttribute("mem_account
                 ps.setInt(2, havepoint);
                 ps.setString(3, acc);
                 change = ps.executeUpdate();
+
                 ctime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 credate = ctime.format(new java.util.Date());
 
