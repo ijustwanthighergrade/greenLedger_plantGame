@@ -21,7 +21,7 @@
         <aside id="main_title">
             <h1>理念</h1>
         </aside>
-
+ 
         <%
             if(session.getAttribute("mem_account")==null||session.getAttribute("mem_account").equals("")){
                 out.println("<div class='signin' id='signin'><div class='signmid' ><form action='login_mem.jsp' method='post'>");
@@ -29,6 +29,7 @@
                 out.println("<input name='lacc' type='text' placeholder='你的帳號' ></div><div class='signcontent'><label for='account'>密碼：<br></label>");
                 out.println("<input name='lpwd' type='password' placeholder='你的密碼' ></div><div class='signbtn'>");
                 out.println("<input type='submit' value='登入' id='login'><input id='show' type='button' value='註冊'></div></form>");
+                out.println("<div class='back'><a href='login_give.jsp' style='text-decoration: none;'><p style='text-align: center;'>後台管理員登入</p></a></div>");
                 out.println("<dialog id='infoModal'><main><div class='big'><div class='mid'><div class='contain'><h2 class='h2card'>會員基本資料</h2>");
                 out.println("<form action='reg_mem.jsp' method='post'><div class='info'><div class='data'><label for='account'>帳號：<br></label>");
                 out.println("<input class='inputstyle' name='racc' type='text' placeholder='你的帳號'></div>");
