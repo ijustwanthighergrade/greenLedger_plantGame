@@ -69,7 +69,12 @@
                 </div>
                 <div class="grass">
                     <div class="seed">
+                    <%
+                        out.println("<img src='../asset/img/seed ("+rs_vf.getInt("vfID")+").png' alt='種子'></a>");
+                    %>
+                    <!--
                         <a href="https://www.instagram.com/greenbook_1228/" target="_blank"><img src="../asset/img/seed (2).png" alt="種子"></a>
+                    -->
                     </div>
                     <div class="green">
                         <p style="padding: 10px;margin-left: 15px;">
