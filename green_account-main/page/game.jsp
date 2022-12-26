@@ -77,17 +77,17 @@
                                 out.println("可澆水次數 : ");
                                 sql = "SELECT * FROM `back` WHERE `bAccount` ='"+ id +"'";
                                 ResultSet rs_vbage = con.createStatement().executeQuery(sql);
-                                int bAmount = -99;
+                                int water_time = -99;
                                 while(rs_vbage.next()){
                                     if(rs_vbage.getInt("bID")==2){ //bID=2 : "澆水"
-                                        bAmount = rs_vbage.getInt("bAmount");
+                                        water_time = rs_vbage.getInt("bAmount");
                                         break;
                                     }
                                 }
-                                if(bAmount==-99){
+                                if(water_time==-99){
                                     out.println("NULL");
                                 }else{
-                                    out.println(bAmount);
+                                    out.println(water_time);
                                 }
                             %>
                         </p>
@@ -177,19 +177,6 @@
                                         out.println("</div>");
                                         out.println("</div>");
                                     %>
-                                    <!--
-                                        <p>地球日是每年的哪一天？</p>
-                                        <div class="questiondiv">
-                                            <div class="question">
-                                                <form action="">
-                                                    <input type="radio" name="question" class="bnt_question"  checked><label >(1) 6 月 6 號</label> <br>
-                                                    <input type="radio" name="question" class="bnt_question" ><label >(1) 4 月 22 號</label> <br>
-                                                    <input type="radio" name="question" class="bnt_question" ><label >(1) 5 月 28 號</label> <br>
-                                                    <input type="radio" name="question" class="bnt_question" ><label >(1) 9 月 28 號</label> 
-                                                </form>
-                                            </div>
-                                        </div>
-                                    -->
                                         <div class="confirmdiv">
                                             <input type="submit"  class="confirm" value="確定選擇" style="cursor: pointer;" onclick="confrimalert()">
                                         </div>
@@ -222,7 +209,6 @@
                                             Calendar calendar = Calendar.getInstance();
                                             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                                             String[] week = {"sMon","sTue","sWed","sThu","sFri","sSat","sSun"};
-                                            sql = "UPDATE `sign` SET `"+ week[0] +"`=? WHERE `sAccount`=?";
                                             PreparedStatement stmt;
                                             dayOfWeek = (dayOfWeek+5)%7;
                                             sql = "UPDATE `sign` SET `"+ week[dayOfWeek] +"`=? WHERE `sAccount`=?";
@@ -339,24 +325,26 @@
         })
 
         //環保小問題之按鍵設定
-      
-        
         function confrimalert(){
-            
             var yes = confirm('確定送出答案嗎？');
-
             if (yes) {
+                <%
+                    sql = "UPDATE `back` SET `bAmount`=? WHERE `bAccount`='"+ id +"' and `bID`=2";
+                    stmt = con.prepareStatement(sql);
+                    stmt.setInt(1,water_time+2);
+                    stmt.executeUpdate();
+                %>
                 alert('答對了！可再澆兩次水！');
-                //alert('答錯了！只能加一次QQ！');
             } else {
-                alert('再選擇一次吧~~');
+                <%
+                    sql = "UPDATE `back` SET `bAmount`=? WHERE `bAccount`='"+ id +"' and `bID`=2";
+                    stmt = con.prepareStatement(sql);
+                    stmt.setInt(1,water_time+1);
+                    stmt.executeUpdate();
+                %>
+                alert('答錯了！只能加一次QQ！');
             }
-          
         }
-        
-
-
-      
     </script>
     <iframe src="../page/nav.html" id="navBar" frameborder="0" scrolling="no"></iframe>
     <% }%>
