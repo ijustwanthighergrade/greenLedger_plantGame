@@ -190,7 +190,6 @@
                         <input type="button" class="btn1" value="簽到">
                     </div>
                     <dialog id="checkModal">
-                        
                         <div class="bigpic">
                             <div class="picbody" style="width: 450px;">
                                 <div class="sub">
@@ -198,14 +197,13 @@
                                     <div class="subtitle">
                                         <p>簽到</p>
                                     </div>
-                        
                                 </div>
                                 <div class="all">
                                     <div class="no1">
                                         <p>這週簽到表</p>
                                         <div class="allcheck">
                                         <%
-                                            /* 打卡 */
+                                            /* 每日打卡 */
                                             Calendar calendar = Calendar.getInstance();
                                             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                                             String[] week = {"sMon","sTue","sWed","sThu","sFri","sSat","sSun"};
@@ -246,7 +244,6 @@
                         <input type="button" class="btn1" value="道具" >
                     </div>
                     <dialog id="itemModal">
-                        
                         <div class="bigpic" >
                             <div class="picbody" style="width: 900px;">
                                 <div class="sub">
@@ -254,11 +251,9 @@
                                     <div class="subtitle">
                                         <p>道具</p>
                                     </div>
-                        
                                 </div>
                                 <div class="all" >
                                     <div class="no1" >
-                                        
                                         <div class="alltoy" >
                                         <%
                                             sql = "SELECT * FROM `back` WHERE `bAccount` ='"+ id +"'";
@@ -279,8 +274,6 @@
                                         %>
                                         </div>
                                     </div>
-                        
-                                   
                                 </div>
                             </div>
                         </div>
