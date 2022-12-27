@@ -95,7 +95,6 @@
                             rs_f.next();
                             out.println("<img src='../asset/img/"+ rs_f.getString("fImg") +"' alt='"+ vf_type +"'></a>");
                         }
-                        
                     %>
                     </div>
                     <div class="green">
@@ -333,7 +332,6 @@
        
         let close=document.querySelector("#close");
         
-
         btn.addEventListener("click", function(){
         infoModal.showModal();
         })
