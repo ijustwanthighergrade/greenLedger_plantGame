@@ -1,10 +1,9 @@
-<%@ page contentType="text/html"%>
-<%@page pageEncoding="UTF-8"%>
-<%@ page language="java"%>
+<%@ page language="java" %>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="javax.servlet.*,java.text.*"%>
-<%@ page import ="java.sql.*"%>
-<%@include file = "catchDateRan.jsp" %> 
+<%@ page import="java.sql.*"%>
+<%@ include file="catchDateRan.jsp" %> 
 <%
     if(session.getAttribute("mem_account")==null||session.getAttribute("mem_account").equals("")){
                 response.sendRedirect("index.jsp");
