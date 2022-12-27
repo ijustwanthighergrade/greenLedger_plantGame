@@ -1,10 +1,9 @@
-<%@ page contentType="text/html"%>
-<%@page pageEncoding="UTF-8"%>
-<%@ page language="java"%>
+<%@ page language="java" %>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="javax.servlet.*,java.text.*"%>
-<%@ page import ="java.sql.*"%>
-<%@include file = "connectsql.jsp" %> 
+<%@ page import="java.sql.*"%>
+<%@include file="connectsql.jsp" %> 
 
 <%
     String racc = request.getParameter("racc"); 
@@ -46,8 +45,26 @@
         int y=0,y1=0;
         if( !rsp.next() ){
             sql = "INSERT INTO `vip` VALUES ( '"+ racc + "','"+ rpwd + "', '"+ rname + "', '"+ sexual + "', '"+ rbirth + "', '"+ rmail + "', '"+ rphone + "', '"+ radd + "','"+y1+"','20')";
-         
             y1 = con.createStatement().executeUpdate(sql);
+            
+            /* 補齊用戶在"game.jsp"會用到的SQL欄位 */
+            PreparedStatement stmt;
+            sql = "INSERT INTO `vflower` VALUE('"+ racc +"', 1 ,'種子', 0 , 0 )";
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            sql = "INSERT INTO `sign` VALUE('"+ racc +"', 0 , 0 , 0 , 0 , 0 , 0 , 0 )";
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            sql = "INSERT INTO `back` VALUE( 0 ,'"+ racc +"', 'fertilizer2.png' , 0 )";
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            sql = "INSERT INTO `back` VALUE( 1 ,'"+ racc +"', 'fertilizer.png' , 0 )";
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            sql = "INSERT INTO `back` VALUE( 2 ,'"+ racc +"', 'watercan.png' , 0 )";
+            stmt = con.prepareStatement(sql);
+            stmt.executeUpdate();
+            
         }
         else{ %>
             <script src="../asset/js/rfail.js"></script>
