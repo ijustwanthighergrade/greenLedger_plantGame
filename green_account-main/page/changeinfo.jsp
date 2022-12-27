@@ -1,10 +1,9 @@
-<%@include file = "connectsql.jsp" %> 
-<%@ page contentType="text/html"%>
-<%@page pageEncoding="UTF-8"%>
+<%@ page language="java" %>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.sql.*"%>
-<%@ page language="java"%>
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="javax.servlet.*,java.text.*"%>
+<%@include file="connectsql.jsp" %> 
 <%
     String name = request.getParameter("mname");
     String email = request.getParameter("memail");
