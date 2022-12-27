@@ -29,7 +29,7 @@ insert into vip value('user','1234',"ddd1","1","2222-02-22","1","1","1","323232"
 -- UPDATE `vip` SET `vPoint`=1234 WHERE `vAccount` = "ddd";
 -- UPDATE `vip` SET `vCO2`=3 WHERE `vAccount` = "ddd";
 select * from vip;
-select * from trade;
+-- select * from trade;
 -- select * from carbon;
 
 
@@ -225,16 +225,16 @@ create table photo(
 	pImg  VARCHAR(40) #花卉圖片
 );
 
-insert into photo value('1','001','plant(1).png');
-insert into photo value('2','002','plant(2).png');
-insert into photo value('3','003','plant(3).png');
-insert into photo value('4','004','plant(4).png');
-insert into photo value('5','005','plant(5).png');
-insert into photo value('6','006','plant(6).png');
-insert into photo value('7','007','plant(7).png');
-insert into photo value('8','008','plant(8).png');
-insert into photo value('9','009','plant(9).png');
-insert into photo value('10','010','plant(10).png');
+insert into photo value('1','001','plant (1).png');
+insert into photo value('2','002','plant (2).png');
+insert into photo value('3','003','plant (3).png');
+insert into photo value('4','004','plant (4).png');
+insert into photo value('5','005','plant (5).png');
+insert into photo value('6','006','plant (6).png');
+insert into photo value('7','007','plant (7).png');
+insert into photo value('8','008','plant (8).png');
+insert into photo value('9','009','plant (9).png');
+insert into photo value('10','010','plant (10).png');
 
 #會員擁有圖鑑資料表
 DROP table IF EXISTS vphoto;
@@ -252,10 +252,10 @@ create table flower(
 	fImg VARCHAR(40) #圖片
 );
 
-insert into flower value('種子','seed(1).jpg');
-insert into flower value('發芽','seed(2).jpg');
-insert into flower value('花苞','seed(3).jpg');
-insert into flower value('枯萎','seed(4).jpg');
+insert into flower value('種子','seed (1).png');
+insert into flower value('發芽','seed (2).png');
+insert into flower value('花苞','seed (3).png');
+insert into flower value('枯萎','seed (4).png');
 
 #會員植物資料表
 DROP table IF EXISTS vflower;
@@ -329,3 +329,11 @@ create table vactivity(
     FOREIGN KEY(vaAccount) REFERENCES vip(vAccount),
     FOREIGN KEY(vaID) REFERENCES activity(aID)
 );
+
+#初始user的SQL( 由於user非使用正常註冊流程建立，因此會有部分資料不齊全 )
+insert into vflower value('user', 1 ,'種子', 0 , 0 );
+insert into sign value('user', 0 , 0 , 0 , 0 , 0 , 0 , 0 );
+insert into back value( 0 ,'user','fertilizer2.png', 0 );
+insert into back value( 1 ,'user','fertilizer.png', 0 );
+insert into back value( 2 ,'user','watercan.png', 0 );
+
