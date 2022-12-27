@@ -309,7 +309,7 @@
                                                 iImg = rs_vbage.getString("bImg");
                                                 out.println("<div class='toydiv'>");
                                                 out.println("<div class='toy1'>");
-                                                out.println("<span data-texto='"+ iName +"'><img src='../asset/img/"+ iImg +".png' ></span>");
+                                                out.println("<span data-texto='"+ iName +"'><img src='../asset/img/"+ iImg +"' ></span>");
                                                 out.println("</div>");
                                                 out.println("</div>");
                                             }
