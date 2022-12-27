@@ -39,11 +39,6 @@
                 sql = "SELECT * FROM `vflower` WHERE `vfAccount` ='"+ id +"'";
                 ResultSet rs_vf = con.createStatement().executeQuery(sql);
                 rs_vf.next();
-            
-                sql = "SELECT * FROM `photo`";
-                ResultSet rs_fDict = con.createStatement().executeQuery(sql);
-                sql = "SELECT * FROM `vphoto` WHERE `vpAccount` = '"+ id +"'";
-                ResultSet rs_vfDict = con.createStatement().executeQuery(sql);
         %>       
         <div class="bighand">
             <div class="handbook">
@@ -70,11 +65,38 @@
                 <div class="grass">
                     <div class="seed">
                     <%
-                        out.println("<img src='../asset/img/seed ("+rs_vf.getInt("vfID")+").png' alt='種子'></a>");
+                        PreparedStatement stmt;
+                        String vf_type = rs_vf.getString("vfType");
+                        if( vf_type=="開花" ){
+                            int vfID = rs_vf.getInt("vfID");
+                            sql = "SELECT * FROM `photo` WHERE `pID`='"+ vfID +"'";
+                            ResultSet rs_f = con.createStatement().executeQuery(sql);
+                            rs_f.next();
+                            out.println("<img src='../asset/img/"+ rs_f.getString("pImg") +"' alt='"+ vf_type +"'></a>");
+                            sql = "SELECT * FROM `vphoto` WHERE `vpAccount`='"+ id +"' and `vpID`='"+ vfID +"'";
+                            rs_f = con.createStatement().executeQuery(sql);
+                            if( !(rs_f.next()) ){
+                                sql = "INSERT INTO `vphoto` VALUE('"+ id +"','"+ vfID +"')";
+                                stmt = con.prepareStatement(sql);
+                                stmt.executeUpdate();
+                            }
+                            Random ran = new Random();
+                            int random = ran.nextInt(3)+1;
+                            sql = "UPDATE `vflower` SET `vfID`=?,`vfType`=?,`vfGrow`=?,`vfDead`=? WHERE `vfAccount`='"+ id +"'";
+                            stmt = con.prepareStatement(sql);
+                            stmt.setInt(1, random);
+                            stmt.setString(2, "種子");
+                            stmt.setInt(3, 0);
+                            stmt.setInt(4, 0);
+                            stmt.executeUpdate();
+                        }else{
+                            sql = "SELECT * FROM `flower` WHERE `fType` = '"+ vf_type +"'";
+                            ResultSet rs_f = con.createStatement().executeQuery(sql);
+                            rs_f.next();
+                            out.println("<img src='../asset/img/"+ rs_f.getString("fImg") +"' alt='"+ vf_type +"'></a>");
+                        }
+                        
                     %>
-                    <!--
-                        <a href="https://www.instagram.com/greenbook_1228/" target="_blank"><img src="../asset/img/seed (2).png" alt="種子"></a>
-                    -->
                     </div>
                     <div class="green">
                         <p style="padding: 10px;margin-left: 15px;">
@@ -112,6 +134,11 @@
                                     </div>
                                 </div>
                                 <%
+                                    /* 花卉圖鑑 */
+                                    sql = "SELECT * FROM `photo`";
+                                    ResultSet rs_fDict = con.createStatement().executeQuery(sql);
+                                    sql = "SELECT * FROM `vphoto` WHERE `vpAccount` = '"+ id +"'";
+                                    ResultSet rs_vfDict = con.createStatement().executeQuery(sql);
                                     out.println("<div class='all1'>");
                                     int i=1;
                                     int haveID = 0;
@@ -164,7 +191,8 @@
                                 </div>
                                 <div class="all2">
                                     <div class="no1">
-                                    <%
+                                    <% 
+                                        /* 題目 */
                                         Random ran = new Random();
                                         int random = ran.nextInt(50)+1;
                                         sql = "SELECT * FROM `exam` WHERE `eID` ='"+ random +"'";
@@ -212,9 +240,9 @@
                                             Calendar calendar = Calendar.getInstance();
                                             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                                             String[] week = {"sMon","sTue","sWed","sThu","sFri","sSat","sSun"};
-                                            PreparedStatement stmt;
                                             dayOfWeek = (dayOfWeek+5)%7;
                                             sql = "UPDATE `sign` SET `"+ week[dayOfWeek] +"`=? WHERE `sAccount`=?";
+                                            
                                             stmt = con.prepareStatement(sql);
                                             stmt.setInt(1,1);
                                             stmt.setString(2,id);
@@ -261,6 +289,7 @@
                                     <div class="no1" >
                                         <div class="alltoy" >
                                         <%
+                                            /* 道具背包 */
                                             sql = "SELECT * FROM `back` WHERE `bAccount` ='"+ id +"'";
                                             rs_vbage = con.createStatement().executeQuery(sql);
                                             sql = "SELECT * FROM `item` ";
