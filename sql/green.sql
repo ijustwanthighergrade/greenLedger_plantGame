@@ -281,15 +281,15 @@ create table goods(
 );
 
 insert into goods value('0','手續費','','1','0');
-insert into goods value('1','超實用筆記本(學習腳蹤)','','20','1');
-insert into goods value('2','一包種子','','35','1');
-insert into goods value('3','一副口罩','','50','1');
-insert into goods value('4','隨機購物袋','','100','1');
-insert into goods value('5','桌布圖鑑','','150','1');
-insert into goods value('6','隨機二手書','','200','1');
-insert into goods value('7','一包蒲公英衛生紙','','500','1');
-insert into goods value('8','環保餐具','','1000','1');
-insert into goods value('9','限量隨機馬克杯','','2000','1');
+insert into goods value('1','超實用筆記本(學習腳蹤)','goods(1).jpg','20','1');
+insert into goods value('2','一包種子','goods(2).jpg','35','1');
+insert into goods value('3','一副口罩','goods(3).jpg','50','1');
+insert into goods value('4','隨機購物袋','goods(4).jpg','100','1');
+insert into goods value('5','桌布圖鑑','goods(5).jpg','150','1');
+insert into goods value('6','隨機二手書','goods(6).jpg','200','1');
+insert into goods value('7','一包蒲公英衛生紙','goods(7).jpg','500','1');
+insert into goods value('8','環保餐具','goods(8).jpg','1000','1');
+insert into goods value('9','限量隨機馬克杯','goods(9).jpg','2000','1');
 
 #點數商店交易資料表
 DROP table IF EXISTS tgoods;
