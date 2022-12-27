@@ -36,6 +36,9 @@
                 ResultSet rs = con.createStatement().executeQuery(sql);
                 rs.next();
                 String id = rs.getString("vAccount");
+                sql = "SELECT * FROM `vip` WHERE `vAccount` ='"+ id +"'";
+                ResultSet rs_vip = con.createStatement().executeQuery(sql);
+                rs_vip.next();
                 sql = "SELECT * FROM `vflower` WHERE `vfAccount` ='"+ id +"'";
                 ResultSet rs_vf = con.createStatement().executeQuery(sql);
                 rs_vf.next();
@@ -45,7 +48,7 @@
                 <div class="bar">
                     <div class="point">
                         <div class="barpoint">
-                            <p>目前點數：100</p>
+                            <p>目前點數：<%out.println(rs_vip.getInt("vPoint"));%></p>
                         </div>
                     </div>
                     <div class="up">
@@ -88,6 +91,12 @@
                             stmt.setString(2, "種子");
                             stmt.setInt(3, 0);
                             stmt.setInt(4, 0);
+                            stmt.executeUpdate();
+
+                            int point = rs_vip.getInt("vPoint");
+                            sql = "UPDATE `vip` SET `vPoint`=? WHERE `vfAccount`='"+ id +"'";
+                            stmt = con.prepareStatement(sql);
+                            stmt.setInt(1, point+1);
                             stmt.executeUpdate();
                         }else{
                             sql = "SELECT * FROM `flower` WHERE `fType` = '"+ vf_type +"'";
