@@ -1,10 +1,9 @@
-<%@ page contentType="text/html"%>
-<%@page pageEncoding="UTF-8"%>
-<%@ page language="java"%>
+<%@ page language="java" %>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.*,java.util.*"%>
 <%@ page import="javax.servlet.*,java.text.*"%>
-<%@ page import ="java.sql.*"%>
-<%@include file = "connectsql.jsp" %> 
+<%@ page import="java.sql.*"%>
+<%@include file="connectsql.jsp" %> 
 <%
     String date=request.getParameter("date"); 
     Integer reason = Integer.parseInt(request.getParameter("cars")); 
