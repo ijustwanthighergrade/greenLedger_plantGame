@@ -249,15 +249,41 @@
                                             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                                             String[] week = {"sMon","sTue","sWed","sThu","sFri","sSat","sSun"};
                                             dayOfWeek = (dayOfWeek+5)%7;
-                                            sql = "UPDATE `sign` SET `"+ week[dayOfWeek] +"`=? WHERE `sAccount`=?";
-                                            
-                                            stmt = con.prepareStatement(sql);
-                                            stmt.setInt(1,1);
-                                            stmt.setString(2,id);
-                                            stmt.executeUpdate();
-                                            /* 輸出一周登入狀況 */
+
                                             sql = "SELECT * FROM `sign` WHERE `sAccount` = '"+ id +"'";
                                             ResultSet rs_week = con.createStatement().executeQuery(sql);
+                                            rs_week.next();
+                                            if(rs_week.getInt(week[dayOfWeek])==0){ /* 當日首次登入 */
+                                                sql = "UPDATE `sign` SET `"+ week[dayOfWeek] +"`=? WHERE `sAccount`=?";
+                                                stmt = con.prepareStatement(sql);
+                                                stmt.setInt(1,1);
+                                                stmt.setString(2,id);
+                                                stmt.executeUpdate();
+                                                int grow = rs_vf.getInt("vfGrow");
+                                                sql = "UPDATE `vflower` SET `vfGrow`=? WHERE `vfAccount`=?";
+                                                stmt = con.prepareStatement(sql);
+                                                stmt.setInt(1,grow+10);
+                                                stmt.setString(2,id);
+                                                stmt.executeUpdate();
+                                                if( rs_week.getInt( week[(dayOfWeek+6)%7] )==0 && dayOfWeek!=1){ /* 前日尚未登入 */
+                                                    sql = "UPDATE `sign` SET `"+ week[dayOfWeek] +"`=? WHERE `sAccount`=?";
+                                                    stmt = con.prepareStatement(sql);
+                                                    stmt.setInt(1,-1);
+                                                    stmt.setString(2,id);
+                                                    stmt.executeUpdate();
+                                                    int dead = rs_vf.getInt("vfDead");
+                                                    sql = "UPDATE `vflower` SET `vfDead`=? WHERE `vfAccount`=?";
+                                                    stmt = con.prepareStatement(sql);
+                                                    stmt.setInt(1,dead+10);
+                                                    stmt.setString(2,id);
+                                                    stmt.executeUpdate();
+                                                }
+                                            }
+                                            
+
+                                            /* 輸出一周登入狀況 */
+                                            sql = "SELECT * FROM `sign` WHERE `sAccount` = '"+ id +"'";
+                                            rs_week = con.createStatement().executeQuery(sql);
                                             rs_week.next();
                                             String today = "";
                                             int flag=-1;
