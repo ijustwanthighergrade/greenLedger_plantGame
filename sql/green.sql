@@ -133,12 +133,13 @@ insert into item value('2','澆水','成長度+10');
 #道具背包資料表
 DROP table IF EXISTS back;
 create table back(
-	bID int PRIMARY KEY, #道具ID
-    bAccount varchar(20), #道具名稱
+	bID int not null, #道具ID (此欄位不能是PK，若為PK則會造成其他帳號無法使用該表格)
+    bAccount varchar(20) not null, #道具背包主人ID (因該與此欄位做CK"組合鍵"，形成該表的唯一鍵)
 	bImg varchar(40), #道具圖片
     bAmount int, #道具數量
     FOREIGN KEY(bID) REFERENCES item(iID),
-    FOREIGN KEY(bAccount) REFERENCES vip(vAccount)
+    FOREIGN KEY(bAccount) REFERENCES vip(vAccount),
+    CONSTRAINT bID_bAccount PRIMARY KEY(bID,bAccount)
 );
 
 #題庫資料表
