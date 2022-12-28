@@ -235,7 +235,24 @@
                         <p>顯示圖表</p>
                     </div>
                     <div id="data_chart_show">
-                        
+                    <%
+                        /* java.io.IOException: Cannot run program "python": CreateProcess error=2, 系統找不到指定的檔案。 */
+                            // 更改至python安裝路徑(已解決)
+                        /* java.io.IOException: Cannot run program "XXX/python.exe": CreateProcess error=5, 存取被拒。  */
+                            // 防火牆未檔
+                            // 存取權限已確認
+                        /*
+                        //ProcessBuilder pb = new ProcessBuilder("C:/Users/user/AppData/Local/Microsoft/WindowsApps/python.exe", "script.py", "arg1", "arg2");
+                        //ProcessBuilder pb = new ProcessBuilder("python", "script.py", "arg1", "arg2");
+                        Process process = pb.start();
+                        int exitCode = process.waitFor();
+                        if (exitCode == 0) {
+                            out.println("<p>Python 檔執行成功！</p>");
+                        } else {
+                            out.println("<p>Python 檔執行失敗！</p>");
+                        }
+                        */
+                    %>
                     </div>
                 </section>
                 <section id="data_record">
