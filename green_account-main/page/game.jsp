@@ -279,7 +279,11 @@
                                                     stmt.executeUpdate();
                                                 }
                                             }
-                                            
+                                            sql = "UPDATE `sign` SET `"+ week[dayOfWeek] +"`=? WHERE `sAccount`=?";
+                                            stmt = con.prepareStatement(sql);
+                                            stmt.setInt(1,1);
+                                            stmt.setString(2,id);
+                                            stmt.executeUpdate();
 
                                             /* 輸出一周登入狀況 */
                                             sql = "SELECT * FROM `sign` WHERE `sAccount` = '"+ id +"'";
