@@ -29,7 +29,7 @@ insert into vip value('user','1234',"ddd1","1","2222-02-22","1","1","1","323232"
 -- UPDATE `vip` SET `vPoint`=1234 WHERE `vAccount` = "ddd";
 -- UPDATE `vip` SET `vCO2`=3 WHERE `vAccount` = "ddd";
 select * from vip;
--- select * from trade;
+select * from trade;
 -- select * from carbon;
 
 
@@ -133,13 +133,12 @@ insert into item value('2','澆水','成長度+10');
 #道具背包資料表
 DROP table IF EXISTS back;
 create table back(
-	bID int not null, #道具ID (此欄位不能是PK，若為PK則會造成其他帳號無法使用該表格)
-    bAccount varchar(20) not null, #道具背包主人ID (因該與此欄位做CK"組合鍵"，形成該表的唯一鍵)
+	bID int PRIMARY KEY, #道具ID
+    bAccount varchar(20), #道具名稱
 	bImg varchar(40), #道具圖片
     bAmount int, #道具數量
     FOREIGN KEY(bID) REFERENCES item(iID),
-    FOREIGN KEY(bAccount) REFERENCES vip(vAccount),
-    CONSTRAINT bID_bAccount PRIMARY KEY(bID,bAccount)
+    FOREIGN KEY(bAccount) REFERENCES vip(vAccount)
 );
 
 #題庫資料表
@@ -253,10 +252,10 @@ create table flower(
 	fImg VARCHAR(40) #圖片
 );
 
-insert into flower value('種子','seed (1).png');
-insert into flower value('發芽','seed (2).png');
-insert into flower value('花苞','seed (3).png');
-insert into flower value('枯萎','seed (4).png');
+insert into flower value('種子','seed (1).jpg');
+insert into flower value('發芽','seed (2).jpg');
+insert into flower value('花苞','seed (3).jpg');
+insert into flower value('枯萎','seed (4).jpg');
 
 #會員植物資料表
 DROP table IF EXISTS vflower;
@@ -330,11 +329,3 @@ create table vactivity(
     FOREIGN KEY(vaAccount) REFERENCES vip(vAccount),
     FOREIGN KEY(vaID) REFERENCES activity(aID)
 );
-
-#初始user的SQL( 由於user非使用正常註冊流程建立，因此會有部分資料不齊全 )
-insert into vflower value('user', 1 ,'種子', 0 , 0 );
-insert into sign value('user', 0 , 0 , 0 , 0 , 0 , 0 , 0 );
-insert into back value( 0 ,'user','fertilizer2.png', 0 );
-insert into back value( 1 ,'user','fertilizer.png', 0 );
-insert into back value( 2 ,'user','watercan.png', 0 );
-
