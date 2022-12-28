@@ -252,10 +252,10 @@ create table flower(
 	fImg VARCHAR(40) #圖片
 );
 
-insert into flower value('種子','seed (1).jpg');
-insert into flower value('發芽','seed (2).jpg');
-insert into flower value('花苞','seed (3).jpg');
-insert into flower value('枯萎','seed (4).jpg');
+insert into flower value('種子','seed (1).png');
+insert into flower value('發芽','seed (2).png');
+insert into flower value('花苞','seed (3).png');
+insert into flower value('枯萎','seed (4).png');
 
 #會員植物資料表
 DROP table IF EXISTS vflower;
